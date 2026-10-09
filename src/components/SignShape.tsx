@@ -4,8 +4,8 @@ export function SignShape({ type }: { type: RoadSign["type"] }) {
     return (
       <path
         d="M-18 -15H18L0 18Z"
-        fill="#fff4d1"
-        stroke="#f57978"
+        fill="#ffe981"
+        stroke="#c43d36"
         strokeWidth="4"
         strokeLinejoin="round"
       />
