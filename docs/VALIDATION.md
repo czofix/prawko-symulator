@@ -9,7 +9,7 @@ Wykonano 9 października 2026 w środowisku Linux, Node.js 24.19.0, npm 11.9.0 i
 - `npm run lint` — ESLint, bez błędów.
 - `npm test` — 51 zaliczonych testów w 5 plikach po zmianie wyglądu plansz.
 - `npm run build` — pomyślny build Vite, pliki w `dist/`.
-- `npm run test:e2e` — 14 zaliczonych testów: 7 ścieżek na desktopie i 7 na telefonicznym rozmiarze ekranu. Testy uruchamiają aktualny build produkcyjny.
+- `npm run test:e2e` — 16 zaliczonych testów: 8 ścieżek na desktopie i 8 na telefonicznym rozmiarze ekranu. Testy uruchamiają aktualny build produkcyjny.
 - `npm audit` — w chwili sprawdzenia 0 znanych podatności w zależnościach produkcyjnych i deweloperskich. Nie jest to gwarancja bezpieczeństwa całego produktu.
 - Start serwera developerskiego na porcie 5173, pobranie HTML i modułu wejściowego — pomyślne. Serwer po ponownym uruchomieniu odpowiada.
 
@@ -43,6 +43,10 @@ Po przebudowie SVG ponownie zaliczono kontrolę typów, lint, 51 testów logiki/
 Nowe testy sprawdzają wspólną projekcję drogi i auta, zgodność kierunku nadwozia z ruchem po łuku, wyjazd całej bryły poza kadr, zachowanie pozycji początkowych i toru pieszego oraz wyłączenie kierunkowskazu w tym samym miejscu drogi po wydłużeniu końcowego wyjazdu. W przeglądarce dla każdego scenariusza sprawdzane są też opisy sygnalizatorów i rzeczywiste położenie końcowe samochodów poza widoczną planszą.
 
 ## Niewykonane / ograniczenia
+
+Po zgłoszeniu prostokątnego podświetlenia aut na nagraniu telefonu dodano test wielokrotnego wyboru A/B/A w pierwszych trzech pytaniach, w tym dotykania auta, które nie jest opcją odpowiedzi. Test przed poprawką wykrył nieprzezroczyste natywne podświetlenie SVG; po poprawce przeszedł na obu rozmiarach. Przezroczyste `-webkit-tap-highlight-color` jest dziedziczone przez całą planszę, a dodatkowy filtr CSS `brightness` na grupach SVG został usunięty. Własne zaznaczenie odpowiedzi i widoczny fokus klawiatury pozostały. Ponownie przeszły typy, lint, 51 testów logiki oraz 16 testów przeglądarkowych z buildem produkcyjnym. Obejrzano zrzut po dotknięciu auta w drugim pytaniu.
+
+Próba zainstalowania WebKit do dodatkowego odtworzenia problemu została zablokowana odpowiedzią 403 polityki sieciowej dla serwerów pobierania Playwright. Test regresji wykonano w Chromium z emulacją dotyku; nie potwierdza to testu na fizycznym iPhonie ani w Safari.
 
 - Przegląd prawny wykonano osobno od testów technicznych, po przywróceniu dostępu do oficjalnych źródeł. Obejmuje 16 opisanych sytuacji i stan sprawdzony 09.10.2026, nie certyfikację ani wszystkie możliwe zdarzenia drogowe. Patrz [LEGAL_REVIEW.md](LEGAL_REVIEW.md).
 - Nie wykonano testów na fizycznym telefonie, Safari ani Firefox. Test telefoniczny emuluje rozmiar i dotyk w Chromium.

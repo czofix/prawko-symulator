@@ -721,6 +721,9 @@ footer .text-button {
 }
 .road-scene {
   position: relative;
+  /* SVG groups also receive Safari's native rectangular tap overlay.
+     The scene already draws its own selection ring; keep keyboard focus. */
+  -webkit-tap-highlight-color: transparent;
 }
 .road-scene > svg {
   width: 100%;
@@ -730,9 +733,6 @@ footer .text-button {
 .map-control {
   cursor: pointer;
   outline-offset: 4px;
-}
-.map-control:hover {
-  filter: brightness(1.13);
 }
 .sign-detail {
   position: absolute;

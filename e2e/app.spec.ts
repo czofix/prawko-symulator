@@ -376,6 +376,8 @@ test("klawiatura, powiększenie tekstu i preferencja ograniczenia ruchu", async 
   await car.focus();
   await page.keyboard.press("Space");
   await expect(car).toBeFocused();
+  await expect(car).toHaveCSS("outline-style", "solid");
+  await expect(car).toHaveCSS("outline-width", "3px");
   await expect(car).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Zatwierdź odpowiedź" }).focus();
   await page.keyboard.press("Enter");
@@ -413,4 +415,42 @@ test("klawiatura, powiększenie tekstu i preferencja ograniczenia ruchu", async 
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
+});
+
+test("dotknięcie auta nie nakłada prostokątnego podświetlenia przeglądarki", async ({
+  page,
+}, testInfo) => {
+  await open(page);
+  await page.getByRole("button", { name: "Zacznij naukę" }).click();
+  for (const index of [0, 1, 2]) {
+    const scene = page.locator(".road-scene");
+    for (const id of ["A", "B", "A"]) {
+      const car = scene.locator(`[data-actor="${id}"]`);
+      if (testInfo.project.name === "mobile") await car.tap();
+      else await car.click();
+      // Safari highlights a clickable SVG group's whole bounding rectangle.
+      // Check the inherited property on the actual painted surface as well.
+      await expect(car).toHaveCSS(
+        "-webkit-tap-highlight-color",
+        "rgba(0, 0, 0, 0)",
+      );
+      await expect(car.locator("polygon").last()).toHaveCSS(
+        "-webkit-tap-highlight-color",
+        "rgba(0, 0, 0, 0)",
+      );
+      if (index < 2) await expect(car).toHaveAttribute("aria-pressed", "true");
+      else await expect(car).toHaveAttribute("role", "img");
+      if (testInfo.project.name === "mobile")
+        await expect(car).toHaveCSS("filter", "none");
+    }
+    await scene.screenshot({
+      path: `test-results/tap-${index}-${testInfo.project.name}.png`,
+    });
+    if (index < 2) {
+      await answer(page, scenarios[index].question.accepted[0]);
+      await page
+        .getByRole("button", { name: "Następne zadanie", exact: true })
+        .click();
+    }
+  }
 });
