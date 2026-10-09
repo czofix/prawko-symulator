@@ -40,7 +40,18 @@ Opublikuj **zawartość `dist/`** na dowolnym hostingu plików statycznych z HTT
 
 Zalecane nagłówki hostingu: `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()` oraz CSP: `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'`. `unsafe-inline` dotyczy tylko stylów dynamicznych SVG i wskaźników; skrypty inline nie są wymagane. Dla `index.html` ustaw rewalidację, dla haszowanych `assets/` długi cache immutable.
 
-**Nie opublikowano aplikacji w zewnętrznym środowisku.**
+### GitHub Pages
+
+Repozytorium zawiera automatyczną publikację w `.github/workflows/pages.yml`. Docelowy adres: **https://czofix.github.io/prawko-symulator/** (będzie dostępny po włączeniu Pages i pierwszym udanym wdrożeniu).
+
+Jednorazowe włączenie:
+
+1. Otwórz [Settings → Pages](https://github.com/czofix/prawko-symulator/settings/pages).
+2. W sekcji **Build and deployment → Source** wybierz **GitHub Actions**. Nie trzeba tworzyć dodatkowego workflow proponowanego przez GitHuba.
+3. Otwórz [workflow publikacji](https://github.com/czofix/prawko-symulator/actions/workflows/pages.yml), wybierz **Run workflow**, gałąź `main` i potwierdź **Run workflow**.
+4. Poczekaj na zielony wynik zadań budowania i publikacji. Adres strony znajdziesz także przy wdrożeniu `github-pages`.
+
+Kolejne zmiany wysłane na `main` uruchamiają publikację automatycznie. Przed publikacją wykonywane są kontrola typów, lint, testy logiki oraz testy przeglądarkowe produkcyjnego builda. Błąd tych kontroli zatrzymuje wdrożenie. Publikowane są wyłącznie pliki z `dist/`; nie trzeba dodawać własnych tokenów ani sekretów. GitHub Pages ustawia własne nagłówki HTTP i nie obsługuje dowolnej konfiguracji nagłówków opisanej powyżej.
 
 ## Struktura
 
