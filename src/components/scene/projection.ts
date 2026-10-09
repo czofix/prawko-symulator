@@ -1,11 +1,20 @@
 // One orthographic camera for the road, vehicle meshes and roadside furniture.
 // Movement remains in the scenario's original road coordinates.
-export const groundTransform = "matrix(0.94 -0.28 0.342 0.77 -84.6 177)";
+const camera = {
+  a: 0.94,
+  b: -0.28,
+  c: 0.342,
+  d: 0.77,
+  x: -84.6,
+  y: 177,
+  height: 0.88,
+};
+export const groundTransform = `matrix(${camera.a} ${camera.b} ${camera.c} ${camera.d} ${camera.x} ${camera.y})`;
 export type Vertex = readonly [number, number, number];
 export function project(x: number, y: number, z = 0) {
   return {
-    x: 0.94 * x + 0.342 * y - 84.6,
-    y: -0.28 * x + 0.77 * y + 177 - z * 0.88,
+    x: camera.a * x + camera.c * y + camera.x,
+    y: camera.b * x + camera.d * y + camera.y - z * camera.height,
   };
 }
 export function localVertex(vertex: Vertex, angle: number): Vertex {
@@ -20,7 +29,8 @@ export function projectedPolygon(vertices: readonly Vertex[], angle = 0) {
   return vertices
     .map((vertex) => {
       const [x, y, z] = localVertex(vertex, angle);
-      return `${(0.94 * x + 0.342 * y).toFixed(2)},${(-0.28 * x + 0.77 * y - z * 0.88).toFixed(2)}`;
+      const point = project(x, y, z);
+      return `${(point.x - camera.x).toFixed(2)},${(point.y - camera.y).toFixed(2)}`;
     })
     .join(" ");
 }

@@ -20,99 +20,98 @@ export function RoadFurniture({
 }) {
   return (
     <>
-      {scenario.signs.map((sign, i) => {
-        const [bx, by] = positions[sign.approach];
-        const offset =
-          scenario.signs.slice(0, i).filter((s) => s.approach === sign.approach)
-            .length * 76;
-        const x =
-          bx +
-          (sign.approach === "west"
-            ? -offset
-            : sign.approach === "east"
-              ? offset
-              : 0);
-        const y =
-          by +
-          (sign.approach === "north"
-            ? -offset
-            : sign.approach === "south"
-              ? offset
-              : 0);
-        const point = project(x, y);
+      {(Object.keys(positions) as Approach[]).map((approach) => {
+        const signs = scenario.signs.filter(
+          (sign) => sign.approach === approach,
+        );
+        if (!signs.length) return null;
+        const point = project(...positions[approach]);
         const actors = scenario.participants
-          .filter((p) => p.approach === sign.approach && p.kind === "car")
+          .filter((p) => p.approach === approach && p.kind === "car")
           .map((p) => p.id)
           .join(", ");
+        const top = -45 - (signs.length - 1) * 57;
         return (
-          <g
-            key={`${sign.approach}-${sign.type}`}
-            transform={`translate(${point.x} ${point.y})`}
-            role="button"
-            tabIndex={compact ? -1 : 0}
-            aria-label={sign.label}
-            onClick={() => onDetail(sign.label)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onDetail(sign.label);
-              }
-            }}
-            className="map-control road-sign"
-          >
-            <path
-              d="M0 0 22 13"
-              stroke="#27332b"
-              strokeWidth="4"
-              opacity=".23"
-            />
-            <ellipse rx="5" ry="3" fill="#a5ab9e" />
-            <path d="M0 0V-45" stroke="#66706d" strokeWidth="4" />
-            <path d="M-1 0V-45" stroke="#e2e7de" strokeWidth="1.5" />
-            <rect x="-37" y="-79" width="74" height="92" fill="transparent" />
-            <g transform="translate(0 -45)">
-              {highlight === sign.approach && (
-                <circle
-                  r="29"
-                  fill="#ffecaa55"
-                  stroke="#ffcf5b"
-                  strokeWidth="3"
-                />
-              )}
-              <g
-                transform={
-                  sign.type === "bend"
-                    ? `rotate(${{ south: 0, west: -90, north: 180, east: 90 }[sign.approach]})`
-                    : undefined
-                }
-              >
-                <SignShape type={sign.type} />
-              </g>
+          <g key={approach} transform={`translate(${point.x} ${point.y})`}>
+            <g aria-hidden="true" pointerEvents="none">
+              <path
+                d="M0 0 22 13"
+                stroke="#27332b"
+                strokeWidth="4"
+                opacity=".23"
+              />
+              <ellipse rx="5" ry="3" fill="#a5ab9e" />
+              <path d={`M0 0V${top}`} stroke="#66706d" strokeWidth="4" />
+              <path d={`M-1 0V${top}`} stroke="#e2e7de" strokeWidth="1.5" />
             </g>
-            {actors && (
-              <g transform="translate(0 -11)" aria-hidden="true">
+            {signs.map((sign, index) => (
+              <g
+                key={sign.type}
+                transform={`translate(0 ${top + index * 57})`}
+                role="button"
+                tabIndex={compact ? -1 : 0}
+                aria-label={sign.label}
+                onClick={() => onDetail(sign.label)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    onDetail(sign.label);
+                  }
+                }}
+                className="map-control road-sign"
+              >
                 <rect
-                  x="-22"
-                  y="-8"
-                  width="44"
-                  height="16"
-                  rx="3"
-                  fill="#f0efe4"
-                  stroke="#9ca49a"
-                  strokeWidth=".8"
+                  x="-37"
+                  y="-28"
+                  width="74"
+                  height="56"
+                  fill="transparent"
+                />
+                {highlight === approach && (
+                  <circle
+                    r="27"
+                    fill="#ffecaa55"
+                    stroke="#ffcf5b"
+                    strokeWidth="3"
+                  />
+                )}
+                <g
+                  transform={
+                    sign.type === "bend"
+                      ? `rotate(${{ south: 0, west: -90, north: 180, east: 90 }[approach]})`
+                      : undefined
+                  }
+                >
+                  <SignShape type={sign.type} />
+                </g>
+                <title>{sign.label}</title>
+              </g>
+            ))}
+            {actors && (
+              <g
+                transform="translate(0 -9)"
+                aria-hidden="true"
+                pointerEvents="none"
+              >
+                <rect
+                  x="-23"
+                  y="-9"
+                  width="46"
+                  height="18"
+                  rx="9"
+                  fill="#17322f"
                 />
                 <text
                   y="3.5"
                   textAnchor="middle"
                   fontSize="10"
                   fontWeight="700"
-                  fill="#263c37"
+                  fill="#f0f5df"
                 >
                   dla {actors}
                 </text>
               </g>
             )}
-            <title>{sign.label}</title>
           </g>
         );
       })}

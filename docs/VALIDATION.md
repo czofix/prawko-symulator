@@ -7,7 +7,7 @@ Wykonano 9 października 2026 w środowisku Linux, Node.js 24.19.0, npm 11.9.0 i
 - `npm ci --no-fund --no-audit` — instalacja z lockfile, ponownie wykonana pomyślnie.
 - `npm run typecheck` — TypeScript strict, bez błędów.
 - `npm run lint` — ESLint, bez błędów.
-- `npm test` — 46 zaliczonych testów w 4 plikach.
+- `npm test` — 51 zaliczonych testów w 5 plikach po zmianie wyglądu plansz.
 - `npm run build` — pomyślny build Vite, pliki w `dist/`.
 - `npm run test:e2e` — 14 zaliczonych testów: 7 ścieżek na desktopie i 7 na telefonicznym rozmiarze ekranu. Testy uruchamiają aktualny build produkcyjny.
 - `npm audit` — w chwili sprawdzenia 0 znanych podatności w zależnościach produkcyjnych i deweloperskich. Nie jest to gwarancja bezpieczeństwa całego produktu.
@@ -36,10 +36,16 @@ Testy w przeglądarce (1440 × 1000 i 390 × 844):
 
 Wykonano przegląd wizualny ekranu startowego na obu rozmiarach i widoku ćwiczenia. Poprawiono między innymi obszary dotykowe znaków, przypisanie tabliczek do wlotów, asfalt wokół wyspy ronda i ukrywanie linku pomijającego nawigację.
 
+## Przestrzenny wygląd plansz
+
+Po przebudowie SVG ponownie zaliczono kontrolę typów, lint, 51 testów logiki/geometrii oraz wszystkie 14 testów przeglądarkowych z produkcyjnym buildem. Obejrzano komplet plansz i ekran startowy, w tym układ znaków z tabliczkami oraz rondo na małym ekranie. Zachowano dane scenariuszy i ocenianie odpowiedzi.
+
+Nowe testy sprawdzają wspólną projekcję drogi i auta, zgodność kierunku nadwozia z ruchem po łuku, wyjazd całej bryły poza kadr, zachowanie pozycji początkowych i toru pieszego oraz wyłączenie kierunkowskazu w tym samym miejscu drogi po wydłużeniu końcowego wyjazdu. W przeglądarce dla każdego scenariusza sprawdzane są też opisy sygnalizatorów i rzeczywiste położenie końcowe samochodów poza widoczną planszą.
+
 ## Niewykonane / ograniczenia
 
 - Przegląd prawny wykonano osobno od testów technicznych, po przywróceniu dostępu do oficjalnych źródeł. Obejmuje 16 opisanych sytuacji i stan sprawdzony 09.10.2026, nie certyfikację ani wszystkie możliwe zdarzenia drogowe. Patrz [LEGAL_REVIEW.md](LEGAL_REVIEW.md).
 - Nie wykonano testów na fizycznym telefonie, Safari ani Firefox. Test telefoniczny emuluje rozmiar i dotyk w Chromium.
 - Nie wykonano zewnętrznego audytu WCAG ani testów z rzeczywistym czytnikiem ekranu.
-- Nie wdrożono aplikacji na zewnętrzny hosting i nie sprawdzono odtworzenia opublikowanego snapshotu w nowym zadaniu chmurowym.
+- Poprzednia wersja została opublikowana przez GitHub Pages, co użytkownik potwierdził zrzutem udanego wdrożenia. Wysłanie aktualizacji na `main` uruchamia kolejne wdrożenie; lokalne testy nie potwierdzają jego zakończenia. Dostęp z tego środowiska do API GitHuba i domeny strony jest ograniczony.
 - Pełna sesja w toku nie jest wznawiana po odświeżeniu; zachowane są zatwierdzone próby i ukończone sesje.

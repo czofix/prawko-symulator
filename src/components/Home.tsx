@@ -1,6 +1,6 @@
 import type { Mode, Progress } from "../domain/types";
 import { scenarios } from "../data/scenarios";
-import { RoadScene } from "./RoadScene";
+import { actorColors, RoadScene } from "./RoadScene";
 import { Icon } from "./Icon";
 export function Home({
   progress,
@@ -65,8 +65,15 @@ export function Home({
           </div>
           <RoadScene scenario={scenarios[0]} interactive={false} compact />
           <div className="visual-bottom">
-            <span className="small-car">A</span>
-            <span className="small-car blue">B</span>
+            <span className="small-car" style={{ background: actorColors.A }}>
+              A
+            </span>
+            <span
+              className="small-car blue"
+              style={{ background: actorColors.B }}
+            >
+              B
+            </span>
             <p>
               Dwie drogi. Jedna zasada.
               <small>Od prostych sytuacji do pewnych decyzji.</small>

@@ -1,6 +1,6 @@
 # Prawko — symulator sytuacji drogowych
 
-Responsywna aplikacja po polsku: React, TypeScript, Vite, rysunki SVG. Bez backendu, kont, zewnętrznych fontów i usług analitycznych. Zapis postępu wyłącznie w przeglądarce.
+Responsywna aplikacja po polsku: React, TypeScript, Vite, przestrzenne plansze SVG. Samochody z bryłą nadwozia, szybami, kołami i światłami poruszają się po torach jazdy w otoczeniu asfaltu, chodników i zieleni. Bez backendu, kont, zewnętrznych fontów i usług analitycznych. Zapis postępu wyłącznie w przeglądarce.
 
 > **Treści sprawdzono 9 października 2026.** Wszystkie 16 scenariuszy porównano z oficjalnymi tekstami ustawy i rozporządzenia oraz późniejszymi nowelizacjami, także z 2026 r. Każde zadanie zawiera przepis, link i datę sprawdzenia. Zakres, uwzględnione zmiany i rejestr dokumentów: [docs/LEGAL_REVIEW.md](docs/LEGAL_REVIEW.md). Aplikacja służy ćwiczeniom; nie jest państwową bazą pytań egzaminacyjnych.
 
@@ -59,6 +59,7 @@ Kolejne zmiany wysłane na `main` uruchamiają publikację automatycznie. Przed 
 - `src/domain/` — niezależna ocena odpowiedzi, geometria, walidacja scenariuszy i wersjonowanie zapisu.
 - `src/hooks/` — bezpieczny zapis i odtwarzanie z `requestAnimationFrame`, czyszczeniem i `prefers-reduced-motion`.
 - `src/components/` — plansza, pytanie, sterowanie, wprowadzenie i sekcja prawna.
+- `src/components/scene/` — wspólna projekcja przestrzenna, model samochodu, materiały, zieleń, znaki i dopasowanie wyjazdu do kadru. Szczegóły: [docs/VISUAL_DESIGN.md](docs/VISUAL_DESIGN.md).
 - `src/App.tsx` — przejścia między trybami i sesjami; osłona wielokrotnego naliczania wyników.
 - `tests/`, `e2e/` — logika oraz rzeczywiste interakcje w przeglądarce.
 

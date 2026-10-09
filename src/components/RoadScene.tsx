@@ -13,6 +13,7 @@ import { Scenery } from "./scene/Scenery";
 import { RoadFurniture } from "./scene/RoadFurniture";
 import { VehicleModel } from "./scene/VehicleModel";
 import { groundTransform, project } from "./scene/projection";
+import { visibleRoute } from "./scene/visibleRoute";
 
 export const actorColors: Record<ParticipantId, string> = {
   A: "#e8ede8",
@@ -40,19 +41,29 @@ export function RoadScene({
 }) {
   const id = useId().replaceAll(":", "");
   const [detail, setDetail] = useState("");
+  const routes = useMemo(
+    () =>
+      Object.fromEntries(
+        scenario.participants.map((p) => [p.id, visibleRoute(p)]),
+      ),
+    [scenario],
+  );
   const paths = useMemo(
     () =>
       Object.fromEntries(
-        scenario.participants.map((p) => [p.id, sampleRoute(p.route)]),
+        scenario.participants.map((p) => [p.id, sampleRoute(routes[p.id])]),
       ),
-    [scenario],
+    [scenario, routes],
   );
   const turnEnds = useMemo(
     () =>
       Object.fromEntries(
-        scenario.participants.map((p) => [p.id, maneuverEndProgress(p.route)]),
+        scenario.participants.map((p) => [
+          p.id,
+          maneuverEndProgress(routes[p.id]),
+        ]),
       ),
-    [scenario],
+    [scenario, routes],
   );
   const step = playback ? scenario.steps[playback.index] : undefined;
   const progressFor = (actor: ParticipantId) => {
@@ -93,7 +104,7 @@ export function RoadScene({
               {scenario.participants.map((p) => (
                 <path
                   key={p.id}
-                  d={svgPath(p.route)}
+                  d={svgPath(routes[p.id])}
                   fill="none"
                   stroke="#9de963"
                   strokeWidth={p.kind === "car" ? 7 : 5}

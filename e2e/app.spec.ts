@@ -239,6 +239,13 @@ test("wszystkie scenariusze: odpowiedzi, znaki, etapy i brak poziomego przewijan
       await expect(page.locator(".sign-detail")).toContainText(sign.label);
       await page.getByRole("button", { name: "Zamknij opis znaku" }).click();
     }
+    for (const signal of scenario.signals) {
+      await page
+        .getByRole("button", { name: signal.label, exact: true })
+        .click();
+      await expect(page.locator(".sign-detail")).toContainText(signal.label);
+      await page.getByRole("button", { name: "Zamknij opis znaku" }).click();
+    }
     await answer(page, scenario.question.accepted[0]);
     await expect(page.getByText("Tak, ten wariant pasuje.")).toBeVisible();
     await page.locator(".legal summary").click();
@@ -255,6 +262,28 @@ test("wszystkie scenariusze: odpowiedzi, znaki, etapy i brak poziomego przewijan
     await expect(page.locator(".step-copy")).toContainText(
       "Sytuacja wyjaśniona",
     );
+    for (const actor of scenario.participants.filter(
+      (p) =>
+        p.kind === "car" &&
+        scenario.steps.some((step) => step.actors.includes(p.id)),
+    )) {
+      const outsideFrame = await page
+        .locator(`[data-actor="${actor.id}"]`)
+        .evaluate((element) => {
+          const bounds = element.getBoundingClientRect();
+          const frame = element.closest("svg")!.getBoundingClientRect();
+          return (
+            bounds.right < frame.left ||
+            bounds.left > frame.right ||
+            bounds.bottom < frame.top ||
+            bounds.top > frame.bottom
+          );
+        });
+      expect(
+        outsideFrame,
+        `${scenario.id}: ${actor.id} wyjeżdża całkowicie poza kadr`,
+      ).toBe(true);
+    }
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
