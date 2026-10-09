@@ -46,6 +46,8 @@ Nowe testy sprawdzają wspólną projekcję drogi i auta, zgodność kierunku na
 
 Po zgłoszeniu prostokątnego podświetlenia aut na nagraniu telefonu dodano test wielokrotnego wyboru A/B/A w pierwszych trzech pytaniach, w tym dotykania auta, które nie jest opcją odpowiedzi. Test przed poprawką wykrył nieprzezroczyste natywne podświetlenie SVG; po poprawce przeszedł na obu rozmiarach. Przezroczyste `-webkit-tap-highlight-color` jest dziedziczone przez całą planszę, a dodatkowy filtr CSS `brightness` na grupach SVG został usunięty. Własne zaznaczenie odpowiedzi i widoczny fokus klawiatury pozostały. Ponownie przeszły typy, lint, 51 testów logiki oraz 16 testów przeglądarkowych z buildem produkcyjnym. Obejrzano zrzut po dotknięciu auta w drugim pytaniu.
 
+Dodatkowy przegląd wykazał też domyślny obrys `outline: auto` grupy SVG po dotknięciu. Usunięto go wyłącznie dla `:focus:not(:focus-visible)`; test klawiatury wymaga nadal widocznego obrysu o grubości 3 px. Test dotyku sprawdza brak zarówno natywnej nakładki, jak i domyślnego prostokątnego obrysu.
+
 Próba zainstalowania WebKit do dodatkowego odtworzenia problemu została zablokowana odpowiedzią 403 polityki sieciowej dla serwerów pobierania Playwright. Test regresji wykonano w Chromium z emulacją dotyku; nie potwierdza to testu na fizycznym iPhonie ani w Safari.
 
 - Przegląd prawny wykonano osobno od testów technicznych, po przywróceniu dostępu do oficjalnych źródeł. Obejmuje 16 opisanych sytuacji i stan sprawdzony 09.10.2026, nie certyfikację ani wszystkie możliwe zdarzenia drogowe. Patrz [LEGAL_REVIEW.md](LEGAL_REVIEW.md).

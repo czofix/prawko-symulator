@@ -440,8 +440,10 @@ test("dotknięcie auta nie nakłada prostokątnego podświetlenia przeglądarki"
       );
       if (index < 2) await expect(car).toHaveAttribute("aria-pressed", "true");
       else await expect(car).toHaveAttribute("role", "img");
-      if (testInfo.project.name === "mobile")
+      if (testInfo.project.name === "mobile") {
         await expect(car).toHaveCSS("filter", "none");
+        await expect(car).toHaveCSS("outline-style", "none");
+      }
     }
     await scene.screenshot({
       path: `test-results/tap-${index}-${testInfo.project.name}.png`,

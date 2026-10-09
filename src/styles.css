@@ -734,6 +734,9 @@ footer .text-button {
   cursor: pointer;
   outline-offset: 4px;
 }
+.map-control:focus:not(:focus-visible) {
+  outline: none;
+}
 .sign-detail {
   position: absolute;
   bottom: 12px;
