@@ -25,7 +25,15 @@ export function RoadFurniture({
           (sign) => sign.approach === approach,
         );
         if (!signs.length) return null;
-        const point = project(...positions[approach]);
+        const [x, y] = positions[approach];
+        // In this camera view the stacked signs otherwise cover the exit arrowheads.
+        const point = project(
+          x +
+            (scenario.geometry === "roundabout" && approach === "south"
+              ? 60
+              : 0),
+          y,
+        );
         const actors = scenario.participants
           .filter((p) => p.approach === approach && p.kind === "car")
           .map((p) => p.id)

@@ -1,10 +1,5 @@
 import { useId, useMemo, useState } from "react";
-import {
-  maneuverEndProgress,
-  poseAt,
-  sampleRoute,
-  svgPath,
-} from "../domain/routes";
+import { maneuverEndProgress, poseAt, sampleRoute } from "../domain/routes";
 import type { ParticipantId, Scenario } from "../domain/types";
 import type { Playback } from "../hooks/usePlayback";
 import { RoadSurface } from "./RoadSurface";
@@ -14,6 +9,7 @@ import { RoadFurniture } from "./scene/RoadFurniture";
 import { VehicleModel } from "./scene/VehicleModel";
 import { groundTransform, project } from "./scene/projection";
 import { visibleRoute } from "./scene/visibleRoute";
+import { DirectionArrows } from "./scene/DirectionArrows";
 
 export const actorColors: Record<ParticipantId, string> = {
   A: "#e8ede8",
@@ -100,32 +96,7 @@ export function RoadScene({
         <g transform={groundTransform}>
           <RoadSurface scenario={scenario} id={id} />
           {showRoutes && (
-            <g className="planned-routes" aria-hidden="true">
-              {scenario.participants.map((p) => (
-                <path
-                  key={p.id}
-                  d={svgPath(routes[p.id])}
-                  fill="none"
-                  stroke="#9de963"
-                  strokeWidth={p.kind === "car" ? 7 : 5}
-                  opacity=".85"
-                  strokeLinecap="round"
-                />
-              ))}
-              {scenario.participants.flatMap((p) =>
-                [0.23, 0.55].map((fraction) => {
-                  const pose = poseAt(paths[p.id], fraction);
-                  return (
-                    <path
-                      key={`${p.id}-${fraction}`}
-                      d="M0 -12 11 7H4V12H-4V7H-11Z"
-                      transform={`translate(${pose.x} ${pose.y}) rotate(${pose.angle})`}
-                      fill="#acff70"
-                    />
-                  );
-                }),
-              )}
-            </g>
+            <DirectionArrows participants={scenario.participants} />
           )}
         </g>
         <Scenery id={id} />

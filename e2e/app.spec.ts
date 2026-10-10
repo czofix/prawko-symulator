@@ -230,6 +230,33 @@ test("wszystkie scenariusze: odpowiedzi, znaki, etapy i brak poziomego przewijan
     await expect(page.locator(".exercise-heading h1")).toHaveText(
       scenario.title,
     );
+    const scene = page.locator(".road-scene");
+    if (index === 0) {
+      await page.getByRole("button", { name: "Ukryj tory jazdy" }).click();
+      await expect(scene.locator("[data-arrowhead]")).toHaveCount(0);
+      await page.getByRole("button", { name: "Pokaż tory jazdy" }).click();
+    }
+    await expect(scene.locator("[data-direction-arrow]")).toHaveCount(
+      scenario.participants.length,
+    );
+    for (const actor of scenario.participants) {
+      const head = scene.locator(`[data-arrowhead="${actor.id}"]`);
+      await expect(head).toHaveCount(1);
+      const insideFrame = await head.evaluate((element) => {
+        const headBounds = element.getBoundingClientRect();
+        const frame = element.closest("svg")!.getBoundingClientRect();
+        return (
+          headBounds.left > frame.left + 4 &&
+          headBounds.right < frame.right - 4 &&
+          headBounds.top > frame.top + 4 &&
+          headBounds.bottom < frame.bottom - 4
+        );
+      });
+      expect(
+        insideFrame,
+        `${scenario.id}: strzałka ${actor.id} kończy się w kadrze`,
+      ).toBe(true);
+    }
     await page.locator(".road-scene").screenshot({
       path: `test-results/scene-${scenario.id}-${testInfo.project.name}.png`,
       animations: "disabled",

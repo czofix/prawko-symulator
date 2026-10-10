@@ -42,11 +42,17 @@ Po przebudowie SVG ponownie zaliczono kontrolę typów, lint, 51 testów logiki/
 
 Nowe testy sprawdzają wspólną projekcję drogi i auta, zgodność kierunku nadwozia z ruchem po łuku, wyjazd całej bryły poza kadr, zachowanie pozycji początkowych i toru pieszego oraz wyłączenie kierunkowskazu w tym samym miejscu drogi po wydłużeniu końcowego wyjazdu. W przeglądarce dla każdego scenariusza sprawdzane są też opisy sygnalizatorów i rzeczywiste położenie końcowe samochodów poza widoczną planszą.
 
-## Niewykonane / ograniczenia
+## Krótkie strzałki kierunku
+
+Pełna trasa ruchu i krótka wskazówka kierunku są teraz rysowane osobno. Każdy uczestnik ma jedną strzałkę rozpoczynającą się przed nim i kończącą widocznym grotem w obrębie planszy. Strzałki skrętu pokazują łuk; nie zmieniają toru przejazdu ani oceniania. W teście wszystkich 16 sytuacji na desktopie i przy 390 px dodano kontrolę liczby grotów, ich pełnej widoczności w kadrze oraz ukrywania i pokazywania strzałek. Po zmianie przeszły kontrola typów, lint, 51 testów logiki i 16 testów przeglądarkowych z buildem produkcyjnym; rozszerzony test wszystkich plansz wykonano dodatkowo na obu rozmiarach.
+
+## Dotykanie aut na telefonie
 
 Po zgłoszeniu prostokątnego podświetlenia aut na nagraniu telefonu dodano test wielokrotnego wyboru A/B/A w pierwszych trzech pytaniach, w tym dotykania auta, które nie jest opcją odpowiedzi. Test przed poprawką wykrył nieprzezroczyste natywne podświetlenie SVG; po poprawce przeszedł na obu rozmiarach. Przezroczyste `-webkit-tap-highlight-color` jest dziedziczone przez całą planszę, a dodatkowy filtr CSS `brightness` na grupach SVG został usunięty. Własne zaznaczenie odpowiedzi i widoczny fokus klawiatury pozostały. Ponownie przeszły typy, lint, 51 testów logiki oraz 16 testów przeglądarkowych z buildem produkcyjnym. Obejrzano zrzut po dotknięciu auta w drugim pytaniu.
 
 Dodatkowy przegląd wykazał też domyślny obrys `outline: auto` grupy SVG po dotknięciu. Usunięto go wyłącznie dla `:focus:not(:focus-visible)`; test klawiatury wymaga nadal widocznego obrysu o grubości 3 px. Test dotyku sprawdza brak zarówno natywnej nakładki, jak i domyślnego prostokątnego obrysu.
+
+## Niewykonane / ograniczenia
 
 Próba zainstalowania WebKit do dodatkowego odtworzenia problemu została zablokowana odpowiedzią 403 polityki sieciowej dla serwerów pobierania Playwright. Test regresji wykonano w Chromium z emulacją dotyku; nie potwierdza to testu na fizycznym iPhonie ani w Safari.
 
