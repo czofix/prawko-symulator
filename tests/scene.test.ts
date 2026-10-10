@@ -6,6 +6,10 @@ import {
   project,
   projectedPolygon,
 } from "../src/components/scene/projection";
+import {
+  directionArrow,
+  remainingArrow,
+} from "../src/components/scene/directionArrow";
 import { visibleRoute } from "../src/components/scene/visibleRoute";
 
 it("rysuje model auta w tej samej perspektywie co droga, niezależnie od kierunku", () => {
@@ -80,4 +84,48 @@ it("po wydłużeniu wyjazdu wyłącza kierunkowskaz w tym samym miejscu drogi", 
       expect(after.x).toBeCloseTo(before.x);
       expect(after.y).toBeCloseTo(before.y);
     }
+});
+
+it("usuwa przejechany odcinek strzałki bez przesuwania jej celu, także na łuku", () => {
+  for (const scenario of scenarios)
+    for (const actor of scenario.participants) {
+      const cue = directionArrow(actor)!;
+      expect(cue).not.toBeNull();
+      const initial = remainingArrow(cue, 0)!;
+      const fullPath = sampleRoute(visibleRoute(actor));
+      const length = fullPath
+        .slice(1)
+        .reduce(
+          (sum, point, i) =>
+            sum +
+            Math.hypot(point[0] - fullPath[i][0], point[1] - fullPath[i][1]),
+          0,
+        );
+      for (const ratio of [0.2, 0.5, 0.8]) {
+        const travelled = (cue.end - cue.start - cue.headLength) * ratio;
+        const remaining = remainingArrow(cue, travelled)!;
+        const expected = poseAt(fullPath, (travelled + cue.start) / length);
+        const [x, y] = remaining.path
+          .match(/^M([^ ]+) ([^ ]+)/)!
+          .slice(1)
+          .map(Number);
+        expect(x).toBeCloseTo(expected.x);
+        expect(y).toBeCloseTo(expected.y);
+        expect(remaining.tip).toEqual(initial.tip);
+        expect(remaining.path).not.toEqual(initial.path);
+      }
+      expect(remainingArrow(cue, length)).toBeNull();
+      expect(remainingArrow(cue, 0)).toEqual(initial);
+    }
+});
+
+it("wygasza grot na końcu strzałki bez odwrócenia jej trzonu", () => {
+  const cue = directionArrow(scenarios[0].participants[0])!;
+  const last = remainingArrow(cue, cue.end - cue.start - 1)!;
+  expect(last.headLength).toBe(1);
+  expect(last.headWidth).toBeLessThan(2);
+  const coordinates = last.path.match(/-?\d+(?:\.\d+)?/g)!.map(Number);
+  expect(coordinates[0]).toBe(coordinates[2]);
+  expect(coordinates[1]).toBe(coordinates[3]);
+  expect(remainingArrow(cue, cue.end - cue.start)).toBeNull();
 });

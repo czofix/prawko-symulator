@@ -48,8 +48,21 @@ export function directionArrow(participant: Participant) {
   }
   if (end <= start + headLength) return null;
 
+  return { points, distances, total, start, end, headLength, pedestrian };
+}
+
+// Playback uses the full exit route: consume real distance, not a percentage
+// of the shorter cue. Keep its destination fixed while the tail follows the car.
+export function remainingArrow(
+  arrow: NonNullable<ReturnType<typeof directionArrow>>,
+  travelled: number,
+) {
+  const { points, distances, total, end, pedestrian } = arrow;
+  const start = arrow.start + Math.max(0, travelled);
+  if (start >= end) return null;
+  const headLength = Math.min(arrow.headLength, end - start);
   const tip = poseAt(points, end / total);
-  const stemEnd = end - headLength + 2;
+  const stemEnd = Math.max(start, end - arrow.headLength + 2);
   const first = poseAt(points, start / total);
   const last = poseAt(points, stemEnd / total);
   const middle = points.filter(
@@ -64,7 +77,7 @@ export function directionArrow(participant: Participant) {
     path,
     tip,
     headLength,
-    headWidth: pedestrian ? 18 : 32,
+    headWidth: (pedestrian ? 18 : 32) * (headLength / arrow.headLength),
     strokeWidth: pedestrian ? 6 : 11,
   };
 }

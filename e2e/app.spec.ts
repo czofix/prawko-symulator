@@ -88,6 +88,12 @@ test("pełna nauka: podpowiedź, błędna i poprawna odpowiedź, animacja, powt�
   await expect(
     page.getByText("Zatrzymajmy się przy tej sytuacji."),
   ).toBeVisible();
+  const movingArrow = page.locator('[data-direction-arrow="B"] > path').first();
+  const waitingArrow = page
+    .locator('[data-direction-arrow="A"] > path')
+    .first();
+  const originalArrow = await movingArrow.getAttribute("d");
+  const originalWaiting = await waitingArrow.getAttribute("d");
   await page.getByRole("button", { name: "Odtwórz", exact: true }).click();
   await expect
     .poll(async () =>
@@ -100,7 +106,11 @@ test("pełna nauka: podpowiedź, błędna i poprawna odpowiedź, animacja, powt�
   const before = await page
     .locator('[data-actor="B"]')
     .getAttribute("data-progress");
+  const pausedArrow = await movingArrow.getAttribute("d");
+  expect(pausedArrow).not.toBe(originalArrow);
+  await expect(waitingArrow).toHaveAttribute("d", originalWaiting!);
   await page.waitForTimeout(200);
+  await expect(movingArrow).toHaveAttribute("d", pausedArrow!);
   expect(
     await page.locator('[data-actor="B"]').getAttribute("data-progress"),
   ).toBe(before);
@@ -109,9 +119,12 @@ test("pełna nauka: podpowiedź, błędna i poprawna odpowiedź, animacja, powt�
     "data-progress",
     "0.000",
   );
+  await expect(movingArrow).toHaveAttribute("d", originalArrow!);
   await page
     .getByRole("button", { name: "Następny krok", exact: true })
     .click();
+  await expect(page.locator('[data-direction-arrow="B"]')).toHaveCount(0);
+  await expect(waitingArrow).toHaveAttribute("d", originalWaiting!);
   await expect(page.locator(".step-copy")).toContainText("Krok 2");
   await page.getByRole("button", { name: "0,5×", exact: true }).click();
   await page

@@ -61,3 +61,10 @@ Próba zainstalowania WebKit do dodatkowego odtworzenia problemu została zablok
 - Nie wykonano zewnętrznego audytu WCAG ani testów z rzeczywistym czytnikiem ekranu.
 - Poprzednia wersja została opublikowana przez GitHub Pages, co użytkownik potwierdził zrzutem udanego wdrożenia. Wysłanie aktualizacji na `main` uruchamia kolejne wdrożenie; lokalne testy nie potwierdzają jego zakończenia. Dostęp z tego środowiska do API GitHuba i domeny strony jest ograniczony.
 - Pełna sesja w toku nie jest wznawiana po odświeżeniu; zachowane są zatwierdzone próby i ukończone sesje.
+
+
+## Znikanie strzałki podczas przejazdu — 10.10.2026
+
+Strzałka skraca się o rzeczywistą odległość przejechaną po torze animacji, również na łukach. Testy geometrii obejmują wszystkich uczestników we wszystkich scenariuszach: zgodność początku strzałki z pozycją na torze, stały cel, usunięcie po przejeździe, przywrócenie po restarcie i wygaszenie grotu bez odwrócenia trzonu. Test nauki na obu rozmiarach sprawdza skracanie strzałki B, niezmienioną strzałkę oczekującego A, pauzę, restart i zniknięcie po przejściu kroku. Obejrzano też zrzut telefonicznej planszy w trakcie przejazdu.
+
+Przeszły: kontrola typów, lint, 53 testy logiki/geometrii oraz 16 testów przeglądarkowych z produkcyjnym buildem. Weryfikacja przeglądarkowa korzysta z Chromium, bez fizycznego iPhone’a.

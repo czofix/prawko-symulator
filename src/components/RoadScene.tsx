@@ -51,6 +51,23 @@ export function RoadScene({
       ),
     [scenario, routes],
   );
+  const pathLengths = useMemo(
+    () =>
+      Object.fromEntries(
+        Object.entries(paths).map(([id, points]) => [
+          id,
+          points
+            .slice(1)
+            .reduce(
+              (sum, point, i) =>
+                sum +
+                Math.hypot(point[0] - points[i][0], point[1] - points[i][1]),
+              0,
+            ),
+        ]),
+      ),
+    [paths],
+  );
   const turnEnds = useMemo(
     () =>
       Object.fromEntries(
@@ -96,7 +113,15 @@ export function RoadScene({
         <g transform={groundTransform}>
           <RoadSurface scenario={scenario} id={id} />
           {showRoutes && (
-            <DirectionArrows participants={scenario.participants} />
+            <DirectionArrows
+              participants={scenario.participants}
+              travelled={Object.fromEntries(
+                actors.map(({ participant, fraction }) => [
+                  participant.id,
+                  fraction * pathLengths[participant.id],
+                ]),
+              )}
+            />
           )}
         </g>
         <Scenery id={id} />

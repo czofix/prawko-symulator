@@ -1,11 +1,13 @@
 import { memo, useMemo } from "react";
 import type { Participant } from "../../domain/types";
-import { directionArrow } from "./directionArrow";
+import { directionArrow, remainingArrow } from "./directionArrow";
 
 export const DirectionArrows = memo(function DirectionArrows({
   participants,
+  travelled,
 }: {
   participants: Participant[];
+  travelled: Record<string, number>;
 }) {
   const arrows = useMemo(
     () =>
@@ -23,8 +25,9 @@ export const DirectionArrows = memo(function DirectionArrows({
       fill="#95ed53"
       strokeLinejoin="round"
     >
-      {arrows.map(
-        ({ id, arrow }) =>
+      {arrows.map(({ id, arrow: initial }) => {
+        const arrow = initial && remainingArrow(initial, travelled[id] ?? 0);
+        return (
           arrow && (
             <g key={id} data-direction-arrow={id}>
               <path
@@ -40,8 +43,9 @@ export const DirectionArrows = memo(function DirectionArrows({
                 transform={`translate(${arrow.tip.x} ${arrow.tip.y}) rotate(${arrow.tip.angle})`}
               />
             </g>
-          ),
-      )}
+          )
+        );
+      })}
     </g>
   );
 });
