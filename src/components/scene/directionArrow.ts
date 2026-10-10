@@ -5,6 +5,7 @@ import { project } from "./projection";
 // A direction cue is intentionally shorter than the route used for playback.
 // It begins in front of the participant, includes the turn, and ends in-frame.
 export function directionArrow(participant: Participant) {
+  if (participant.stationary) return null;
   const points = sampleRoute(participant.route);
   const distances = [0];
   for (let i = 1; i < points.length; i++) {

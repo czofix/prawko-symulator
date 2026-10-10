@@ -1,0 +1,155 @@
+[
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2024/1251/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2024/1251",
+    "title": "Obwieszczenie Marszałka Sejmu Rzeczypospolitej Polskiej z dnia 21 czerwca 2024 r. w sprawie ogłoszenia jednolitego tekstu ustawy - Prawo o ruchu drogowym",
+    "sha256": "de6c1f33e4c8cc9079f6307ea5c559d07013539a9985e6f8d63a792d2371fccb",
+    "entryIntoForce": null,
+    "comments": null
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2024/834/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2024/834",
+    "title": "Ustawa z dnia 15 maja 2024 r. o zmianie niektórych ustaw związanych z funkcjonowaniem administracji rządowej",
+    "sha256": "f41734f3bf511e7809795f261896f53755ad1fa70957dcce3ea1da16c02701d7",
+    "entryIntoForce": "2024-07-01",
+    "comments": "1) art. 65 ust. 2 i art. 73 ust. 2 wchodzą w życie z dniem 5 czerwca 2024 r.;\n2) art. 47 i art. 82 wchodzą w życie z dniem 6 czerwca 2024 r."
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2025/820/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2025/820",
+    "title": "Ustawa z dnia 9 maja 2025 r. o zmianie ustawy o Służbie Więziennej oraz niektórych innych ustaw",
+    "sha256": "9ac1bb198851d86c52b856b5596d00a87d227abf6cf26b9e3845262e772b5a92",
+    "entryIntoForce": "2025-07-25",
+    "comments": "art. 27, art. 28 i art. 30 wchodzą w życie z dniem 9 lipca 2025 r."
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2025/1006/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2025/1006",
+    "title": "Ustawa z dnia 25 czerwca 2025 r. o zmianie ustawy o informatyzacji działalności podmiotów realizujących zadania publiczne oraz niektórych innych ustaw",
+    "sha256": "205826343299a62efa0c9ff4a3afadc5e64726c242379e068f2ed60eab73bdef",
+    "entryIntoForce": "2025-08-09",
+    "comments": "1) art. 3 pkt 2 lit. a i b oraz pkt 3, art. 4 pkt 2, 4 i 5 oraz art. 9 wchodzą w życie z dniem 30 czerwca 2026 r.;\n2) art. 6 wchodzi w życie z dniem 17 kwietnia 2026 r."
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2025/1676/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2025/1676",
+    "title": "Ustawa z dnia 17 października 2025 r. o zmianie ustawy - Prawo o ruchu drogowym oraz niektórych innych ustaw",
+    "sha256": "2fe188c01ce4018fde03bb6e5b679064eeca41d3a84c490248387205d9c19e19",
+    "entryIntoForce": "2026-03-03",
+    "comments": "1) art. 1 pkt 6 i 16 oraz art. 4 pkt 11 i 13 wchodzą w życie z dniem 3 grudnia 2025 r.;\n2) art. 1 pkt 3, pkt 7 lit. b, pkt 8 i 15, art. 3 pkt 2-7, art. 4 pkt 4 lit. b, pkt 8, pkt 17 i 19, art. 6, art. 10 oraz art. 11 wchodzą w życie 17 grudnia 2025 r. ;\n3) art. 1 pkt 4, art. 2, art. 4 pkt 1 i 18 oraz art. 8 wchodzą w życie 3 czerwca 2026 r.;\n4) art. 1 pkt 7 lit. a, pkt 9, pkt 12 lit. a tiret drugie, pkt 13 lit. a tiret pierwsze podwójne tiret drugie i pkt 14, art. 3 pkt 1,art.  4 pkt 6 i pkt 7 lit. a i b wchodzą w życie 3 września 2026 r.."
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2025/1734/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2025/1734",
+    "title": "Ustawa z dnia 7 listopada 2025 r. o zmianie ustawy - Prawo o ruchu drogowym",
+    "sha256": "5bbb4ab4f33fed20668c6a2a67b20fefc6b7b2b50967dfeb7001ecc17a27d9c9",
+    "entryIntoForce": "2026-06-10",
+    "comments": "1) art. 1 pkt 5, pkt 11, pkt 13 lit. b i pkt 15-17 oraz art. 3 wchodzą w życie 24 grudnia 2025 r.;\n2) art. 1 pkt 2 lit. b, pkt 3, pkt 4 lit. b w zakresie ust. 1ab-1al i lit. c, pkt 6, pkt 7 lit. c, pkt 8-10, pkt 12, pkt 13 lit. a i pkt 14 oraz art. 4 wchodzą w życie z dniem 18 stycznia 2027 r."
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2025/1843/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2025/1843",
+    "title": "Ustawa z dnia 21 listopada 2025 r. o zmianie ustawy - Prawo o ruchu drogowym oraz niektórych innych ustaw",
+    "sha256": "c6a64517867a18fb546b9f99913fa74bbff5c731e6cb98d84ced97ad8065d7bb",
+    "entryIntoForce": "2026-06-24",
+    "comments": "1) art. 1 pkt 7-9 wchodzą w życie z dniem 5 lipca 2026 r.;\n2) art. 2, art. 4 i art. 5 wchodzą w życie z dniem 24 grudnia 2025 r., z mocą od dnia 1 stycznia 2026 r."
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2025/1872/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2025/1872",
+    "title": "Ustawa z dnia 4 grudnia 2025 r. o zmianie niektórych ustaw w celu poprawy bezpieczeństwa ruchu drogowego",
+    "sha256": "97d2a9e8993d414d84c1e8a8d59ba0780a4f975e9aaf39497a41b6f35dae7a62",
+    "entryIntoForce": "2026-01-29",
+    "comments": "art. 4 pkt 1, 3 i 4 oraz art. 6 wchodzą w życie 30 marca 2026 r."
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2026/180/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2026/180",
+    "title": "Ustawa z dnia 23 stycznia 2026 r. o zmianie ustawy - Prawo o ruchu drogowym oraz niektórych innych ustaw",
+    "sha256": "85e288c5d4f74b2df58d851fe6627cf9beed76439e4c5a32838242d6b9872a25",
+    "entryIntoForce": "2026-05-18",
+    "comments": "1) art. 2 pkt 1 i 2, art. 4 pkt 1 lit. b-e i pkt 2-4 wchodzą w życie z dniem 3 marca 2026 r.;\n2) art. 2 pkt 3 i art. 4 pkt 1 lit. a wchodzą w życie z dniem 18 lutego 2026 r."
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2026/875/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2026/875",
+    "title": "Ustawa z dnia 11 czerwca 2026 r. o zmianie niektórych ustaw w celu uproszczenia procedur administracyjnych w sprawach rozstrzyganych w drodze decyzji administracyjnych albo załatwianych milcząco",
+    "sha256": "4fd1512a8df1c2334dc4a15040892eb724fe640a844ff1cead27e8a53c6fdf8e",
+    "entryIntoForce": "2027-01-01",
+    "comments": null
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2026/982/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2026/982",
+    "title": "Ustawa z dnia 29 maja 2026 r. o zmianie ustawy o drogach publicznych oraz niektórych innych ustaw",
+    "sha256": "7f63a8a117ba5022f14ff449615b7aaee1eb33226e28fa0978d609d3cbd012c2",
+    "entryIntoForce": "2026-09-21",
+    "comments": "1) art. 2 i art. 7 pkt 1 wchodzą w życie z dniem określonym w komunikacie, o którym mowa w art. 21 ustawy zmienianej w art. 7;\n2) art. 4, art. 5, art. 6 oraz art. 8 wchodzą w życie 6 sierpnia 2026 r.;\n3) art. 3, art. 7 pkt 2 i 3, art. 9 oraz art. 10 wchodzą w życie z dniem 23 lipca 2026 r."
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2026/1073/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2026/1073",
+    "title": "Ustawa z dnia 17 lipca 2026 r. o zmianie ustawy o zastawie rejestrowym i rejestrze zastawów oraz ustawy - Prawo o ruchu drogowym",
+    "sha256": "9ac35f7fa7c2d6e6157c0ec2e43ea0b53cfa706566252eacff3cd6b4eb33e156",
+    "entryIntoForce": "2027-05-11",
+    "comments": null
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2019/2310/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2019/2310",
+    "title": "Obwieszczenie Ministra Infrastruktury oraz Ministra Spraw Wewnętrznych i Administracji z dnia 31 października 2019 r. w sprawie ogłoszenia jednolitego tekstu rozporządzenia Ministrów Infrastruktury oraz Spraw Wewnętrznych i Administracji w sprawie znaków i sygnałów drogowych",
+    "sha256": "c9972e947cf244c13e1d56bb0c2a97a4d248a8066021ae0fbece1441ec710a9d",
+    "entryIntoForce": null,
+    "comments": null
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2021/433/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2021/433",
+    "title": "Rozporządzenie Ministrów Infrastruktury oraz Spraw Wewnętrznych i Administracji z dnia 8 marca 2021 r. zmieniające rozporządzenie w sprawie znaków i sygnałów drogowych",
+    "sha256": "bcf1b019c5cef4f6b205cbbdc867eec1eb6763cd1937fbd5369e4232a43e5764",
+    "entryIntoForce": "2021-03-13",
+    "comments": null
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2021/2065/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2021/2065",
+    "title": "Rozporządzenie Ministrów Infrastruktury oraz Spraw Wewnętrznych i Administracji z dnia 12 października 2021 r. zmieniające rozporządzenie w sprawie znaków i sygnałów drogowych",
+    "sha256": "f1cdfe6e1ab0eff45ad46014dddedb167d2e7b2bf92a555fea73fe4d5b21e772",
+    "entryIntoForce": "2021-12-02",
+    "comments": "par. 1 pkt 5 oraz pkt 10 lit. a tiret pierwsze podwójne tiret trzecie, który wchodzi w życie z dniem 18 stycznia 2022 r."
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2022/2372/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2022/2372",
+    "title": "Rozporządzenie Ministrów Infrastruktury oraz Spraw Wewnętrznych i Administracji z dnia 14 października 2022 r. zmieniające rozporządzenie w sprawie znaków i sygnałów drogowych",
+    "sha256": "bd29ae2368f592cba38cabdde53cacd3a63b0b42170953ff9ad4c4fbba7dfc3e",
+    "entryIntoForce": "2022-12-06",
+    "comments": null
+  },
+  {
+    "checkedAt": "2026-10-10",
+    "url": "https://api.sejm.gov.pl/eli/acts/DU/2026/133/text.pdf",
+    "metadataURL": "https://api.sejm.gov.pl/eli/acts/DU/2026/133",
+    "title": "Rozporządzenie Ministrów Infrastruktury oraz Spraw Wewnętrznych i Administracji z dnia 14 stycznia 2026 r. zmieniające rozporządzenie w sprawie znaków i sygnałów drogowych",
+    "sha256": "6c7343fd63ec1664dce4f5f4f390a164cf8ab138b69e52d6439aa8a0c03976ad",
+    "entryIntoForce": "2026-02-19",
+    "comments": null
+  }
+]

@@ -238,6 +238,7 @@ test("wszystkie scenariusze: odpowiedzi, znaki, etapy i brak poziomego przewijan
   ).toBe(true);
   await expect(page.locator(".draft-banner")).toHaveCount(0);
   await page.getByRole("button", { name: "Zacznij naukę" }).click();
+  test.setTimeout(scenarios.length * 4000);
   for (let index = 0; index < scenarios.length; index++) {
     const scenario = scenarios[index];
     await expect(page.locator(".exercise-heading h1")).toHaveText(
@@ -250,9 +251,9 @@ test("wszystkie scenariusze: odpowiedzi, znaki, etapy i brak poziomego przewijan
       await page.getByRole("button", { name: "Pokaż tory jazdy" }).click();
     }
     await expect(scene.locator("[data-direction-arrow]")).toHaveCount(
-      scenario.participants.length,
+      scenario.participants.filter(p=>!p.stationary).length,
     );
-    for (const actor of scenario.participants) {
+    for (const actor of scenario.participants.filter(p=>!p.stationary)) {
       const head = scene.locator(`[data-arrowhead="${actor.id}"]`);
       await expect(head).toHaveCount(1);
       const insideFrame = await head.evaluate((element) => {
@@ -289,7 +290,7 @@ test("wszystkie scenariusze: odpowiedzi, znaki, etapy i brak poziomego przewijan
     await answer(page, scenario.question.accepted[0]);
     await expect(page.getByText("Tak, ten wariant pasuje.")).toBeVisible();
     await page.locator(".legal summary").click();
-    await expect(page.locator(".legal")).toContainText("09.10.2026");
+    await expect(page.locator(".legal")).toContainText(scenario.sources[0].checkedAt!.split("-").reverse().join("."));
     await expect(page.locator(".legal-warning")).toHaveCount(0);
     for (const source of scenario.sources)
       await expect(

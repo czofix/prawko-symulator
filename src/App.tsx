@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
-import { scenarios, scenarioById } from "./data/scenarios";
+import { scenarios, scenarioById, scenarioNumber } from "./data/scenarios";
 import { pickSession } from "./domain/grading";
 import { emptyProgress, recordAttempt, recordSession } from "./domain/progress";
 import type { Attempt, Mode, SessionResult } from "./domain/types";
 import { useProgress } from "./hooks/useProgress";
+import { ScenarioPicker, type ScenarioFilters } from "./components/ScenarioPicker";
 import { Home } from "./components/Home";
 import { Exercise } from "./components/Exercise";
 import { Icon } from "./components/Icon";
@@ -21,6 +22,8 @@ interface Run {
 }
 export default function App() {
   const { progress, update, warning } = useProgress();
+  const [picker, setPicker] = useState(false);
+  const [filters, setFilters] = useState<ScenarioFilters>({category:"",difficulty:""});
   const [run, setRun] = useState<Run | null>(null);
   const [result, setResult] = useState<SessionResult | null>(null);
   const [review, setReview] = useState<number | null>(null);
@@ -32,7 +35,7 @@ export default function App() {
   const [retry, setRetry] = useState(0);
   const submittedIds = useRef(new Set<string>());
   const navigate = () => window.scrollTo({ top: 0, behavior: "instant" });
-  const start = (mode: Mode) => {
+  const start = (mode: Mode, startId?: string) => {
     const pool =
       mode === "mistakes"
         ? scenarios.filter(
@@ -49,9 +52,10 @@ export default function App() {
       id: crypto.randomUUID(),
       mode,
       ids: (mode === "exam" ? pickSession(pool) : pool).map((s) => s.id),
-      index: 0,
+      index: startId ? Math.max(0, pool.findIndex(s=>s.id===startId)) : 0,
       attempts: [],
     });
+    setPicker(false);
     setResult(null);
     setReview(null);
     setCompleted(false);
@@ -60,6 +64,7 @@ export default function App() {
   };
   const leave = () => {
     setRun(null);
+    setPicker(false);
     setResult(null);
     setReview(null);
     setCompleted(false);
@@ -170,13 +175,15 @@ export default function App() {
             key={`${run.id}:${current.id}:${retry}`}
             scenario={current}
             mode={run.mode}
-            number={run.index + 1}
+            number={run.mode === "learn" ? scenarioNumber.get(current.id)! : run.index + 1}
             total={run.ids.length}
             speed={progress.speed}
             onSpeed={(speed) => update((p) => ({ ...p, speed }))}
             onSubmit={submit}
             onNext={next}
             onExit={() => setExitConfirm(true)}
+            onList={run.mode === "learn" ? () => { leave(); setPicker(true); } : undefined}
+            onPrevious={run.mode === "learn" && run.index > 0 ? () => start("learn",run.ids[run.index-1]) : undefined}
             onRetry={() => setRetry((v) => v + 1)}
           />
         ) : reviewing && result && review !== null ? (
@@ -248,7 +255,7 @@ export default function App() {
               Wróć do startu <Icon name="arrow" />
             </button>
           </main>
-        ) : completed ? (
+        ) : picker ? <ScenarioPicker progress={progress} filters={filters} onFilters={setFilters} onStart={id=>start("learn",id)} onBack={leave}/> : completed ? (
           <main className="empty-state">
             <span className="large-icon">
               <Icon name="check" size={36} />
@@ -267,6 +274,7 @@ export default function App() {
           <Home
             progress={progress}
             onStart={start}
+            onPicker={()=>{leave();setPicker(true);}}
             onReset={() => setReset(true)}
             onIntro={() => setIntro(true)}
           />

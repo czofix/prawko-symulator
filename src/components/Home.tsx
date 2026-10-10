@@ -7,11 +7,13 @@ export function Home({
   onStart,
   onReset,
   onIntro,
+  onPicker,
 }: {
   progress: Progress;
   onStart: (mode: Mode) => void;
   onReset: () => void;
   onIntro: () => void;
+  onPicker: () => void;
 }) {
   const solved = Object.keys(progress.attempts).length;
   const mistakes = Object.values(progress.attempts).filter(
@@ -49,6 +51,7 @@ export function Home({
           >
             Zacznij naukę <Icon name="arrow" />
           </button>
+          <button className="button secondary picker-entry" onClick={onPicker}>Wybierz sytuację</button>
           <div className="hero-reassurance">
             <span>
               <Icon name="check" size={15} /> Bez presji czasu

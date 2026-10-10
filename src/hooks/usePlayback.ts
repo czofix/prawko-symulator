@@ -1,5 +1,6 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import type { Scenario } from "../domain/types";
+import { advancePlayback, playbackPosition } from "../domain/playback";
 const query = "(prefers-reduced-motion: reduce)";
 const subscribe = (callback: () => void) => {
   const media = window.matchMedia(query);
@@ -15,7 +16,7 @@ export function useReducedMotion() {
 }
 export function usePlayback(
   scenario: Scenario,
-  speed: number,
+  speed: 0.5 | 1 | 2,
   enabled: boolean,
 ) {
   const reduced = useReducedMotion();
@@ -29,31 +30,14 @@ export function usePlayback(
     let last: number | null = null;
     const tick = (now: number) => {
       if (last !== null)
-        setTime((t) => Math.min(total, t + Math.min(now - last!, 100) * speed));
+        setTime((t) => advancePlayback(t, now - last!, speed, total));
       last = now;
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
   }, [enabled, playing, reduced, finished, speed, total]);
-  let start = 0;
-  let index = scenario.steps.length - 1;
-  for (let i = 0; i < scenario.steps.length; i++) {
-    if (time < start + scenario.steps[i].duration) {
-      index = i;
-      break;
-    }
-    if (i < scenario.steps.length - 1) start += scenario.steps[i].duration;
-  }
-  const fraction = finished
-    ? 1
-    : Math.min(
-        1,
-        Math.max(
-          0,
-          (time - start - 700) / (scenario.steps[index].duration - 700),
-        ),
-      );
+  const { start, index, fraction } = playbackPosition(scenario.steps, time);
   return {
     index,
     fraction: reduced ? 0 : fraction,

@@ -1,10 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { scenarios } from "../src/data/scenarios";
+import { visibleRoute } from "../src/components/scene/visibleRoute";
+import { legacy } from "../src/data/scenarios/legacy";
 import { gradeAnswer } from "../src/domain/grading";
 import { poseAt, sampleRoute } from "../src/domain/routes";
 import { validateScenario } from "../src/domain/validateScenario";
 // These checks validate internal consistency, not legal correctness.
 const expectedMovement: Record<string, string[]> = {
+  "opposite-right-turns":["A+B"], "three-right-hand-chain":["C","B","A"], "right-turn-shared-exit":["A","B"], "left-yields-two":["C","B","A"],
+  "stop-empty-road":["","A"], "priority-left-opposite":["B","A"], "priority-left-minor-right":["A","B"], "minor-stop-versus-yield":["B","A"], "stop-right-versus-left":["A","B"], "priority-three-levels":["C","B","A"], "priority-independent-pair":["A+B","C"],
+  "bend-follow-versus-minor":["A","B"], "bend-leave-versus-turn":["A","B"], "bend-right-hand-on-main":["B","A"], "bend-main-right-minor-left":["A","B"], "bend-two-minor":["A","B"], "bend-four-vehicles":["A","B","C","D"], "bend-north-west-conflict":["B","A"],
+  "amber-safe-stop":[""], "red-amber-wait":[""], "green-right-opposite-left":["A","B"], "protected-left-signal":["A"], "conditional-arrow-stop":["","A"], "green-blocked-exit":[""], "green-overrides-stop":["A"], "conditional-arrow-yields":["B","A"],
+  "roundabout-second-exit":["B","A"], "roundabout-exit-indicator":["A"], "roundabout-exit-pedestrian":["P","A"], "roundabout-following":["A","B"], "roundabout-red-entry":["B"], "roundabout-without-yield":["A","B"], "roundabout-independent-entries":["A+B"],
+  "pedestrian-entering":["P","A"], "cyclist-on-crossing":["B","A"], "right-turn-pedestrian":["P","A"], "left-turn-crossing":["P","A"], "left-turn-opposite-cyclist":["B","A"], "right-turn-cycle-track":["B","A"], "two-vulnerable-crossings":["P+B","A"],
+  "lane-indicator-no-priority":["B","A"], "slow-traffic-no-closure":["B","A"], "driveway-join":["B","A"], "zipper-only-one":["B","A","C","D"],
   "right-hand-south": ["B", "A"],
   "right-hand-north": ["B", "A"],
   "opposite-straight": ["A+B"],
@@ -23,8 +32,11 @@ const expectedMovement: Record<string, string[]> = {
   "merge-free-flow": ["B", "A"],
 };
 describe("spójność scenariuszy i animacji", () => {
-  it("ma minimum 15 stabilnych, różnych identyfikatorów", () => {
-    expect(scenarios.length).toBeGreaterThanOrEqual(15);
+  it("ma dokładnie 60 stabilnych, różnych identyfikatorów", () => {
+    expect(scenarios.length).toBe(60);
+    expect(legacy).toHaveLength(16);
+    for(const old of legacy) expect(scenarios.some(s=>s.id===old.id)).toBe(true);
+    expect(Object.values(Object.groupBy(scenarios,s=>s.category)).map(g=>g!.length).sort()).toEqual([10,10,10,6,8,8,8].sort());
     expect(new Set(scenarios.map((s) => s.id)).size).toBe(scenarios.length);
   });
   for (const scenario of scenarios)
@@ -33,7 +45,7 @@ describe("spójność scenariuszy i animacji", () => {
         expect(() => validateScenario(scenario)).not.toThrow();
         expect(scenario.verification).toBe("verified");
         expect(
-          scenario.sources.every((s) => s.checkedAt === "2026-10-09"),
+          scenario.sources.every((s) => s.checkedAt === (legacy.some(old=>old.id===scenario.id) ? "2026-10-09" : "2026-10-10")),
         ).toBe(true);
         expect(scenario.steps.map((s) => s.actors.join("+"))).toEqual(
           expectedMovement[scenario.id],
@@ -65,15 +77,15 @@ describe("spójność scenariuszy i animacji", () => {
                 id: p.id,
                 kind: p.kind,
                 ...poseAt(
-                  sampleRoute(p.route),
+                  sampleRoute(visibleRoute(p)),
                   step.actors.includes(p.id) ? i / 100 : 0,
                 ),
               }));
             for (let a = 0; a < poses.length; a++)
               for (let b = a + 1; b < poses.length; b++) {
                 const min =
-                  poses[a].kind === "pedestrian" ||
-                  poses[b].kind === "pedestrian"
+                  poses[a].kind !== "car" ||
+                  poses[b].kind !== "car"
                     ? 55
                     : 74;
                 expect(

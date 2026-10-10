@@ -6,8 +6,8 @@ export function PlaybackControls({
   onSpeed,
 }: {
   playback: Playback;
-  speed: 0.5 | 1;
-  onSpeed: (speed: 0.5 | 1) => void;
+  speed: 0.5 | 1 | 2;
+  onSpeed: (speed: 0.5 | 1 | 2) => void;
 }) {
   return (
     <div className="playback-controls" aria-label="Sterowanie wyjaśnieniem">
@@ -40,7 +40,7 @@ export function PlaybackControls({
       </button>
       {!playback.reduced && (
         <div className="speed-control" aria-label="Prędkość animacji">
-          {([0.5, 1] as const).map((value) => (
+          {([0.5, 1, 2] as const).map((value) => (
             <button
               key={value}
               onClick={() => onSpeed(value)}

@@ -26,7 +26,7 @@ export function parseProgress(
     !record(value.attempts) ||
     !Array.isArray(value.sessions) ||
     typeof value.speed !== "number" ||
-    ![0.5, 1].includes(value.speed) ||
+    ![0.5, 1, 2].includes(value.speed) ||
     typeof value.introSeen !== "boolean"
   )
     throw new Error("Nieprawidłowy format postępu.");
@@ -80,7 +80,7 @@ export function parseProgress(
       throw new Error("Powtórzone zadania w sesji.");
     progress.sessions.push({ id: item.id, at: item.at, attempts });
   }
-  progress.speed = value.speed as 0.5 | 1;
+  progress.speed = value.speed as 0.5 | 1 | 2;
   progress.introSeen = value.introSeen;
   return progress;
 }

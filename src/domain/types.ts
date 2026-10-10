@@ -11,7 +11,9 @@ export interface Route {
 }
 export interface Participant {
   id: ParticipantId;
-  kind: "car" | "pedestrian";
+  kind: "car" | "pedestrian" | "cyclist";
+  stationary?: boolean;
+  indicatorFromDistance?: number;
   approach: Approach;
   maneuver: Maneuver;
   description: string;
@@ -19,12 +21,18 @@ export interface Participant {
 }
 export interface RoadSign {
   approach: Approach;
-  type: "yield" | "priority" | "stop" | "roundabout" | "bend" | "crossing";
+  type: "yield" | "priority" | "stop" | "roundabout" | "bend" | "crossing" | "cycleCrossing";
+  position?: Point;
+  actors?: ParticipantId[];
+  bendRotation?: number;
   label: string;
 }
 export interface Signal {
   approach: Approach;
-  color: "red" | "green";
+  color: "red" | "green" | "amber" | "red-amber";
+  kind?: "S-1" | "S-2" | "S-3";
+  direction?: "left" | "right";
+  actors?: ParticipantId[];
   label: string;
 }
 export interface AnimationStep {
@@ -44,7 +52,10 @@ export interface Scenario {
   title: string;
   category: string;
   difficulty: 1 | 2 | 3;
-  geometry: "crossroad" | "roundabout" | "crosswalk" | "merge";
+  geometry: "crossroad" | "roundabout" | "crosswalk" | "merge" | "lanes" | "driveway";
+  markings?: { x: number; y: number; rotation: number; kind: "pedestrian" | "cycle" }[];
+  cycleTrack?: boolean;
+  sceneNote?: string;
   description: string;
   participants: Participant[];
   signs: RoadSign[];
@@ -82,6 +93,6 @@ export interface Progress {
     { correct: number; incorrect: number; lastCorrect: boolean }
   >;
   sessions: SessionResult[];
-  speed: 0.5 | 1;
+  speed: 0.5 | 1 | 2;
   introSeen: boolean;
 }

@@ -8,7 +8,7 @@ export function visibleRoute({
   route,
 }: Pick<Participant, "kind" | "route">): Route {
   const last = route.segments.at(-1);
-  if (kind !== "car" || !last || last.type !== "line") return route;
+  if (!last || last.type !== "line" || kind === "pedestrian" || (kind === "cyclist" && last.to.every(v => v >= 0 && v <= 600))) return route;
   const end = project(...last.to);
   const min = -90,
     max = 690;

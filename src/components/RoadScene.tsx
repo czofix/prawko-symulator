@@ -6,6 +6,7 @@ import { RoadSurface } from "./RoadSurface";
 import { SceneMaterials } from "./scene/SceneMaterials";
 import { Scenery } from "./scene/Scenery";
 import { RoadFurniture } from "./scene/RoadFurniture";
+import { CyclistModel } from "./scene/CyclistModel";
 import { VehicleModel } from "./scene/VehicleModel";
 import { groundTransform, project } from "./scene/projection";
 import { visibleRoute } from "./scene/visibleRoute";
@@ -131,12 +132,12 @@ export function RoadScene({
             scenario.question.options.some((o) => o.actor === p.id);
           const chosen = selected.includes(p.id);
           const indicating =
-            p.maneuver !== "straight" && fraction < turnEnds[p.id];
+            p.maneuver !== "straight" && fraction < turnEnds[p.id] && fraction * pathLengths[p.id] >= (p.indicatorFromDistance ?? 0);
           return (
             <g
               key={p.id}
               transform={`translate(${screen.x} ${screen.y})`}
-              opacity={fraction >= 1 && p.kind === "car" ? 0 : 1}
+              opacity={fraction >= 1 && p.kind !== "pedestrian" ? 0 : 1}
               role={selectable ? "button" : "img"}
               tabIndex={selectable ? 0 : undefined}
               aria-label={p.description}
@@ -173,7 +174,7 @@ export function RoadScene({
                   id={`${id}-car-${p.id}`}
                   shadowId={id}
                 />
-              ) : (
+              ) : p.kind === "cyclist" ? <CyclistModel angle={pose.angle} /> : (
                 <g aria-hidden="true">
                   <ellipse
                     cx="7"
@@ -287,6 +288,7 @@ export function RoadScene({
           </g>
         )}
       </svg>
+      {scenario.sceneNote && !compact && <p className="scene-note">{scenario.sceneNote}</p>}
       {detail && (
         <div className="sign-detail" role="status">
           <span>{detail}</span>

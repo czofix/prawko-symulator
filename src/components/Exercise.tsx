@@ -18,18 +18,22 @@ export function Exercise({
   onExit,
   review,
   onRetry,
+  onList,
+  onPrevious,
 }: {
   scenario: Scenario;
   mode: Mode;
   number: number;
   total: number;
-  speed: 0.5 | 1;
-  onSpeed: (s: 0.5 | 1) => void;
+  speed: 0.5 | 1 | 2;
+  onSpeed: (s: 0.5 | 1 | 2) => void;
   onSubmit: (attempt: Attempt) => void;
   onNext: () => void;
   onExit: () => void;
   review?: Attempt;
   onRetry: () => void;
+  onList?: () => void;
+  onPrevious?: () => void;
 }) {
   const [selected, setSelected] = useState<string[]>(review?.answer ?? []);
   const [submitted, setSubmitted] = useState<Attempt | null>(review ?? null);
@@ -89,6 +93,7 @@ export function Exercise({
           </b>
         </span>
       </div>
+      {onList && <div className="level-navigation"><button className="text-button" onClick={onList}>← Wybierz sytuację</button>{onPrevious && <button className="text-button" onClick={onPrevious}>Poprzednie zadanie</button>}</div>}
       <div className="session-track">
         <div style={{ width: `${(number / total) * 100}%` }} />
       </div>

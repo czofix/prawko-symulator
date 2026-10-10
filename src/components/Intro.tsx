@@ -7,7 +7,7 @@ import { PlaybackControls } from "./PlaybackControls";
 export function Intro({ onClose }: { onClose: () => void }) {
   const [selected, setSelected] = useState<string[]>([]);
   const [confirmed, setConfirmed] = useState(false);
-  const [speed, setSpeed] = useState<0.5 | 1>(1);
+  const [speed, setSpeed] = useState<0.5 | 1 | 2>(1);
   const playback = usePlayback(scenarios[0], speed, confirmed);
   return (
     <Dialog title="Najpierw mała próba" onClose={onClose} wide>

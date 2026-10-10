@@ -7,9 +7,10 @@ export function RoadSurface({
   id: string;
 }) {
   const verticalOnly =
-    scenario.geometry === "crosswalk" || scenario.geometry === "merge";
+    scenario.geometry === "crosswalk" || scenario.geometry === "merge" || scenario.geometry === "lanes";
   const road = verticalOnly
     ? "M218 -400H382V1000H218Z"
+    : scenario.geometry === "driveway" ? "M218 -400H382V1000H218V426Q218 382 174 382H-400V218H174Q218 218 218 174Z"
     : "M218 -400H382V174Q382 218 426 218H1000V382H426Q382 382 382 426V1000H218V426Q218 382 174 382H-400V218H174Q218 218 218 174Z";
   return (
     <g aria-hidden="true">
@@ -51,10 +52,10 @@ export function RoadSurface({
       {scenario.geometry === "roundabout" && (
         <circle cx="300" cy="300" r="135" fill={`url(#${id}-asphalt)`} />
       )}
-      {scenario.geometry !== "merge" && (
+      {!["merge", "lanes"].includes(scenario.geometry) && (
         <path
           d={
-            verticalOnly
+            scenario.geometry === "driveway" ? "M297 -400V1000M303 -400V1000" : verticalOnly
               ? "M297 -400V374M303 -400V374M297 445V1000M303 445V1000"
               : "M297 -400V196M303 -400V196M297 404V1000M303 404V1000M-400 297H196M-400 303H196M404 297H1000M404 303H1000"
           }
@@ -63,6 +64,9 @@ export function RoadSurface({
           opacity=".85"
         />
       )}
+      {scenario.geometry === "driveway" && <path d="M193 218V382" stroke={`url(#${id}-paving)`} strokeWidth="30" />}
+      {scenario.geometry === "lanes" && <path d="M300 -400V1000" stroke="#f5f1df" strokeWidth="3" strokeDasharray="18 20"/>}
+      {["lanes","merge"].includes(scenario.geometry) && [258,342].map(x=><path key={x} d={`M${x} 588V556m-7 8 7-8 7 8`} stroke="#f5f1df" strokeWidth="3" fill="none"/>)}
       {scenario.geometry === "merge" && (
         <>
           <path
@@ -114,7 +118,7 @@ export function RoadSurface({
           ))}
         </>
       )}
-      {scenario.geometry === "crosswalk" &&
+      {scenario.geometry === "crosswalk" && !scenario.markings &&
         Array.from({ length: 6 }, (_, i) => (
           <rect
             key={i}
@@ -125,6 +129,8 @@ export function RoadSurface({
             fill="#faf8eb"
           />
         ))}
+      {scenario.cycleTrack && <path d="M414 -400V1000" stroke="#b2725b" strokeWidth="32"/>}
+      {scenario.markings?.map((m,i)=><g key={i} transform={`translate(${m.x} ${m.y}) rotate(${m.rotation})`}>{m.kind === "pedestrian" ? Array.from({length:6},(_,j)=><rect key={j} x={-78+j*27} y="-19" width="17" height="38" fill="#faf8eb"/>) : <><path d="M-82 0H82" stroke="#b2725b" strokeWidth="32"/><path d="M-82 -20H82M-82 20H82" stroke="#faf8eb" strokeWidth="6" strokeDasharray="12 9"/></>}</g>)}
       {scenario.signs
         .filter((s) => s.type === "stop" || s.type === "yield")
         .map((s) => (
