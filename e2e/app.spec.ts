@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { scenarios } from "../src/data/scenarios";
+import { writeVisualReview } from "./visualReview";
 const key = "prawko.progress.v1";
 test.beforeEach(async ({ page }) => {
   page.on("pageerror", (error) => {
@@ -251,9 +252,9 @@ test("wszystkie scenariusze: odpowiedzi, znaki, etapy i brak poziomego przewijan
       await page.getByRole("button", { name: "Pokaż tory jazdy" }).click();
     }
     await expect(scene.locator("[data-direction-arrow]")).toHaveCount(
-      scenario.participants.filter(p=>!p.stationary).length,
+      scenario.participants.filter((p) => !p.stationary).length,
     );
-    for (const actor of scenario.participants.filter(p=>!p.stationary)) {
+    for (const actor of scenario.participants.filter((p) => !p.stationary)) {
       const head = scene.locator(`[data-arrowhead="${actor.id}"]`);
       await expect(head).toHaveCount(1);
       const insideFrame = await head.evaluate((element) => {
@@ -290,7 +291,9 @@ test("wszystkie scenariusze: odpowiedzi, znaki, etapy i brak poziomego przewijan
     await answer(page, scenario.question.accepted[0]);
     await expect(page.getByText("Tak, ten wariant pasuje.")).toBeVisible();
     await page.locator(".legal summary").click();
-    await expect(page.locator(".legal")).toContainText(scenario.sources[0].checkedAt!.split("-").reverse().join("."));
+    await expect(page.locator(".legal")).toContainText(
+      scenario.sources[0].checkedAt!.split("-").reverse().join("."),
+    );
     await expect(page.locator(".legal-warning")).toHaveCount(0);
     for (const source of scenario.sources)
       await expect(
@@ -347,6 +350,7 @@ test("wszystkie scenariusze: odpowiedzi, znaki, etapy i brak poziomego przewijan
       })
       .click();
   }
+  writeVisualReview(scenarios, testInfo.project.name);
   await expect(
     page.getByRole("heading", { name: "Cała seria za Tobą." }),
   ).toBeVisible();
@@ -495,5 +499,174 @@ test("dotknięcie auta nie nakłada prostokątnego podświetlenia przeglądarki"
         .getByRole("button", { name: "Następne zadanie", exact: true })
         .click();
     }
+  }
+});
+
+test("wybór 60 poziomów, filtry i zachowany stary postęp", async ({
+  page,
+}, info) => {
+  await page.addInitScript(
+    ({ key, fresh }) =>
+      localStorage.setItem(
+        key,
+        JSON.stringify({
+          ...fresh,
+          attempts: {
+            "right-hand-south": { correct: 2, incorrect: 1, lastCorrect: true },
+            "green-left": { correct: 0, incorrect: 1, lastCorrect: false },
+          },
+        }),
+      ),
+    { key, fresh },
+  );
+  await open(page);
+  await page
+    .getByRole("button", { name: "Wybierz sytuację", exact: true })
+    .click();
+  await expect(page.locator(".level-card")).toHaveCount(60);
+  await expect(
+    page.locator('[data-scenario-id="right-hand-south"]'),
+  ).toContainText("Poprawna ostatnia odpowiedź");
+  await expect(page.locator('[data-scenario-id="green-left"]')).toContainText(
+    "Do powtórki",
+  );
+  await page
+    .getByLabel("Kategoria", { exact: true })
+    .selectOption("Sygnalizacja świetlna");
+  await expect(page.locator(".level-card")).toHaveCount(10);
+  await page.getByLabel("Trudność", { exact: true }).selectOption("1");
+  await expect(page.locator(".level-card")).toHaveCount(2);
+  await page.screenshot({
+    path: `test-results/level-picker-${info.project.name}.png`,
+    fullPage: true,
+  });
+  await page.locator('[data-scenario-id="red-amber-wait"]').click();
+  await expect(page.locator(".exercise-heading h1")).toHaveText(
+    "Jeszcze nie zielone",
+  );
+  await page
+    .getByRole("button", { name: "← Wybierz sytuację", exact: true })
+    .click();
+  await expect(page.locator(".level-card")).toHaveCount(2);
+  await page.getByRole("button", { name: "Wyczyść filtry" }).click();
+  await expect(page.locator(".level-card")).toHaveCount(60);
+  await page.locator('[data-scenario-id="zipper-only-one"]').click();
+  await expect(page.locator(".exercise-heading h1")).toHaveText(
+    "Suwak: jeden, nie cała kolumna",
+  );
+  await page.getByRole("button", { name: "Poprzednie zadanie" }).click();
+  await expect(page.locator(".exercise-heading h1")).not.toHaveText(
+    "Suwak: jeden, nie cała kolumna",
+  );
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});
+test("animacja 2x: połowa czasu, pauza, restart, kroki i zapis", async ({
+  page,
+}) => {
+  await page.clock.install();
+  await open(page);
+  await page.getByRole("button", { name: "Zacznij naukę" }).click();
+  await answer(page, ["B"]);
+  const actor = page.locator('[data-actor="B"]');
+  await page.getByRole("button", { name: "Odtwórz", exact: true }).click();
+  await page.clock.runFor(1616);
+  const normal = Number(await actor.getAttribute("data-progress"));
+  await page.getByRole("button", { name: "Od początku", exact: true }).click();
+  await expect(actor).toHaveAttribute("data-progress", "0.000");
+  await page.getByRole("button", { name: "2×", exact: true }).click();
+  await page.getByRole("button", { name: "Odtwórz", exact: true }).click();
+  await page.clock.runFor(816);
+  expect(Number(await actor.getAttribute("data-progress"))).toBeCloseTo(
+    normal,
+    1,
+  );
+  await page.getByRole("button", { name: "Pauza", exact: true }).click();
+  const paused = await actor.getAttribute("transform");
+  await page.clock.runFor(1000);
+  await expect(actor).toHaveAttribute("transform", paused!);
+  await page.getByRole("button", { name: "Od początku", exact: true }).click();
+  await page.getByRole("button", { name: "Odtwórz", exact: true }).click();
+  await page.clock.runFor(1616);
+  await expect(actor).toHaveAttribute("data-progress", "1.000");
+  await expect(page.locator('[data-actor="A"]')).toHaveAttribute(
+    "data-progress",
+    "0.000",
+  );
+  await page.clock.runFor(1616);
+  await expect(page.locator(".step-copy")).toContainText("Sytuacja wyjaśniona");
+  await page.getByRole("button", { name: "Od początku", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Następny krok", exact: true })
+    .click();
+  await expect(actor).toHaveAttribute("data-progress", "1.000");
+  await page
+    .getByRole("button", { name: "Następne zadanie", exact: true })
+    .click();
+  await answer(page, ["B"]);
+  await expect(
+    page.getByRole("button", { name: "2×", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.reload();
+  await page.getByRole("button", { name: "Zacznij naukę" }).click();
+  await answer(page, ["B"]);
+  await expect(
+    page.getByRole("button", { name: "2×", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "1×", exact: true }).click();
+  await page.getByRole("button", { name: "Odtwórz", exact: true }).click();
+  await page.clock.runFor(1616);
+  expect(Number(await actor.getAttribute("data-progress"))).toBeCloseTo(
+    normal,
+    1,
+  );
+});
+test("nowe tory jazdy przy 2x: rower, rondo, posesja i ruch jednoczesny", async ({
+  page,
+}, info) => {
+  test.setTimeout(90000);
+  await page.clock.install();
+  await open(page);
+  for (const id of [
+    "cyclist-on-crossing",
+    "right-turn-cycle-track",
+    "roundabout-second-exit",
+    "driveway-join",
+    "two-vulnerable-crossings",
+    "roundabout-independent-entries",
+  ]) {
+    const s = scenarios.find((s) => s.id === id)!;
+    await page
+      .getByRole("button", { name: "Wybierz sytuację", exact: true })
+      .click();
+    await page.locator(`[data-scenario-id="${id}"]`).click();
+    await answer(page, s.question.accepted[0]);
+    await page.getByRole("button", { name: "2×", exact: true }).click();
+    await page.getByRole("button", { name: "Odtwórz", exact: true }).click();
+    await page.clock.runFor(816);
+    for (const p of s.participants) {
+      const progress = Number(
+        await page
+          .locator(`[data-actor="${p.id}"]`)
+          .getAttribute("data-progress"),
+      );
+      if (s.steps[0].actors.includes(p.id)) expect(progress).toBeGreaterThan(0);
+      else expect(progress).toBe(0);
+    }
+    await page.getByRole("button", { name: "Pauza", exact: true }).click();
+    await page
+      .locator(".road-scene")
+      .screenshot({
+        path: `test-results/moving-${id}-${info.project.name}.png`,
+      });
+    await page.getByRole("button", { name: "Odtwórz", exact: true }).click();
+    await page.clock.runFor(s.steps.length * 1600 + 100);
+    await expect(page.locator(".step-copy")).toContainText(
+      "Sytuacja wyjaśniona",
+    );
+    await leave(page);
   }
 });

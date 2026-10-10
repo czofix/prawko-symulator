@@ -35,7 +35,11 @@ export function RoadFurniture({
           y,
         );
         const actors = scenario.participants
-          .filter((p) => signs[0].actors ? signs[0].actors.includes(p.id) : p.approach === approach && p.kind === "car")
+          .filter((p) =>
+            signs[0].actors
+              ? signs[0].actors.includes(p.id)
+              : p.approach === approach && p.kind === "car",
+          )
           .map((p) => p.id)
           .join(", ");
         const top = -45 - (signs.length - 1) * 57;
@@ -125,9 +129,17 @@ export function RoadFurniture({
       })}
       {scenario.signals.map((signal) => {
         const point = project(...positions[signal.approach]);
-        if (scenario.signs.some(s=>s.approach===signal.approach)) point.x += signal.approach === "north" || signal.approach === "east" ? 55 : -55;
+        if (scenario.signs.some((s) => s.approach === signal.approach))
+          point.x +=
+            signal.approach === "north" || signal.approach === "east"
+              ? 55
+              : -55;
         const actors = scenario.participants
-          .filter((p) => signal.actors ? signal.actors.includes(p.id) : p.approach === signal.approach)
+          .filter((p) =>
+            signal.actors
+              ? signal.actors.includes(p.id)
+              : p.approach === signal.approach,
+          )
           .map((p) => p.id)
           .join(", ");
         return (
@@ -185,25 +197,59 @@ export function RoadFurniture({
                     cy={-24 + i * 24}
                     r="7.5"
                     fill={
-                      (signal.color === color || (signal.color === "red-amber" && color !== "green"))
+                      signal.color === color ||
+                      (signal.color === "red-amber" && color !== "green")
                         ? color === "red"
                           ? "#ff514e"
-                          : color === "amber" ? "#ffd34d" : "#54e887"
+                          : color === "amber"
+                            ? "#ffd34d"
+                            : "#54e887"
                         : "#354442"
                     }
                   />
-                  {(signal.color === color || (signal.color === "red-amber" && color !== "green")) && (
+                  {(signal.color === color ||
+                    (signal.color === "red-amber" && color !== "green")) && (
                     <circle
                       cy={-24 + i * 24}
                       r="12"
-                      fill={color === "red" ? "#ff514e" : color === "amber" ? "#ffd34d" : "#54e887"}
+                      fill={
+                        color === "red"
+                          ? "#ff514e"
+                          : color === "amber"
+                            ? "#ffd34d"
+                            : "#54e887"
+                      }
                       opacity=".15"
                     />
                   )}
                 </g>
               ))}
-              {signal.kind === "S-3" && <path d="M5 24H-6m5-5-5 5 5 5" stroke="#13291d" strokeWidth="2.5" fill="none" />}
-              {signal.kind === "S-2" && <g transform="translate(29 24)"><rect x="-10" y="-10" width="20" height="20" fill="#1c302c" stroke="#e1e5d9"/><path d="M-6 0H6m-5-5 5 5-5 5" stroke="#54e887" strokeWidth="2.5" fill="none"/></g>}
+              {signal.kind === "S-3" && (
+                <path
+                  d="M5 24H-6m5-5-5 5 5 5"
+                  stroke="#13291d"
+                  strokeWidth="2.5"
+                  fill="none"
+                />
+              )}
+              {signal.kind === "S-2" && (
+                <g transform="translate(29 24)">
+                  <rect
+                    x="-10"
+                    y="-10"
+                    width="20"
+                    height="20"
+                    fill="#1c302c"
+                    stroke="#e1e5d9"
+                  />
+                  <path
+                    d="M-6 0H6m-5-5 5 5-5 5"
+                    stroke="#54e887"
+                    strokeWidth="2.5"
+                    fill="none"
+                  />
+                </g>
+              )}
             </g>
             <rect
               x="-22"

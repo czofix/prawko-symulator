@@ -90,7 +90,10 @@ it("usuwa przejechany odcinek strzałki bez przesuwania jej celu, także na łuk
   for (const scenario of scenarios)
     for (const actor of scenario.participants) {
       const cue = directionArrow(actor)!;
-      if (actor.stationary) { expect(cue).toBeNull(); continue; }
+      if (actor.stationary) {
+        expect(cue).toBeNull();
+        continue;
+      }
       expect(cue).not.toBeNull();
       const initial = remainingArrow(cue, 0)!;
       const fullPath = sampleRoute(visibleRoute(actor));

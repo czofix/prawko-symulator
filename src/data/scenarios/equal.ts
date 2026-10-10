@@ -1,7 +1,95 @@
-import { car, choice, define, first, law, order, step } from './helpers';
+import { car, choice, define, first, law, order, step } from "./helpers";
 export const equal = [
- define(0,{id:'opposite-right-turns',title:'Każdy w swoją stronę',difficulty:1,description:'A i B nadjeżdżają z przeciwka i skręcają w prawo. Brak znaków, świateł i innych uczestników. Wyloty są wolne.',participants:[car('A','south','right'),car('B','north','right')],question:choice('Czy mogą ruszyć jednocześnie?','Tak, ich tory są rozdzielone','Nie, skręt wymaga zawsze kolejki'),hint:'Prześledź oba prawe skręty.',answerLabel:'A i B mogą jechać razem.',explanation:'Każdy skręca na inny wylot. Nie przecinają swoich torów.',watchFor:'Dwa kierunkowskazy nie oznaczają jeszcze konfliktu.',steps:[step(['A','B'],'Obaj skręcają w prawo po oddzielnych torach.')],sources:[law('art. 25 ust. 1; art. 2 pkt 23')]}),
- define(0,{id:'three-right-hand-chain',title:'Trzy auta, jedna zasada',difficulty:2,description:'Brak znaków i świateł. A od dołu, B z prawej, C od góry; wszyscy jadą prosto i dojechali jednocześnie.',participants:[car('A','south'),car('B','east'),car('C','north')],question:order(['A','B','C'],[['C','B','A']]),hint:'Zacznij od kierowcy, który nie ma nikogo z prawej.',answerLabel:'C → B → A.',explanation:'B ustępuje C z prawej, a A ustępuje B. C może przejechać, następnie B i A.',watchFor:'Sprawdź prawą stronę każdego kierowcy, nie tylko A.',steps:[step(['C'],'C ma wolną prawą stronę.'),step(['B'],'B przejeżdża po C.'),step(['A'],'A jedzie po B.')],sources:[law('art. 25 ust. 1')]}),
- define(0,{id:'right-turn-shared-exit',title:'Prawy skręt i wspólny pas',difficulty:2,description:'A od dołu skręca w prawo, B z lewej jedzie prosto. Skrzyżowanie równorzędne. Oba tory prowadzą na ten sam pas prawego wylotu.',participants:[car('A','south','right'),car('B','west')],question:first(['A','B'],'A'),hint:'Kto znajduje się po prawej stronie kierowcy B?',answerLabel:'A przed B.',explanation:'B ma A po prawej i ustępuje mu. Wspólny pas nie pozwala wjechać obok siebie.',watchFor:'Skręcający w prawo także może mieć pierwszeństwo przed pojazdem jadącym prosto.',steps:[step(['A'],'B ustępuje A z prawej.'),step(['B'],'B wjeżdża na wolny pas.')],sources:[law('art. 25 ust. 1')]}),
- define(0,{id:'left-yields-two',title:'Lewy skręt: dwa powody czekania',difficulty:3,description:'A od dołu skręca w lewo, B z prawej i C z przeciwka jadą prosto. Brak znaków i świateł. Wszyscy dojechali jednocześnie.',participants:[car('A','south','left'),car('B','east'),car('C','north')],question:{kind:'multiple',prompt:'Komu A musi ustąpić?',options:[{id:'B',label:'Pojazdowi B',actor:'B'},{id:'C',label:'Pojazdowi C',actor:'C'}],accepted:[['B','C']]},hint:'Połącz prawą stronę z zasadą skrętu w lewo.',answerLabel:'A ustępuje B i C.',explanation:'B jest z prawej A, a C jedzie prosto z przeciwka. Najpierw C, któremu także B ustępuje, potem B i A.',watchFor:'Samo sprawdzenie prawej strony nie wystarcza przy lewym skręcie.',steps:[step(['C'],'C jedzie przed B i skręcającym A.'),step(['B'],'B przejeżdża; A nadal czeka.'),step(['A'],'A wykonuje lewy skręt.')],sources:[law('art. 25 ust. 1')]})
+  define(0, {
+    id: "opposite-right-turns",
+    title: "Każdy w swoją stronę",
+    difficulty: 1,
+    description:
+      "A i B nadjeżdżają z przeciwka i skręcają w prawo. Brak znaków, świateł i innych uczestników. Wyloty są wolne.",
+    participants: [car("A", "south", "right"), car("B", "north", "right")],
+    question: choice(
+      "Czy mogą ruszyć jednocześnie?",
+      "Tak, ich tory są rozdzielone",
+      "Nie, skręt wymaga zawsze kolejki",
+    ),
+    hint: "Prześledź oba prawe skręty.",
+    answerLabel: "A i B mogą jechać razem.",
+    explanation: "Każdy skręca na inny wylot. Nie przecinają swoich torów.",
+    watchFor: "Dwa kierunkowskazy nie oznaczają jeszcze konfliktu.",
+    steps: [step(["A", "B"], "Obaj skręcają w prawo po oddzielnych torach.")],
+    sources: [law("art. 25 ust. 1; art. 2 pkt 23")],
+  }),
+  define(0, {
+    id: "three-right-hand-chain",
+    title: "Trzy auta, jedna zasada",
+    difficulty: 2,
+    description:
+      "Brak znaków i świateł. A od dołu, B z prawej, C od góry; wszyscy jadą prosto i dojechali jednocześnie.",
+    participants: [car("A", "south"), car("B", "east"), car("C", "north")],
+    question: order(["A", "B", "C"], [["C", "B", "A"]]),
+    hint: "Zacznij od kierowcy, który nie ma nikogo z prawej.",
+    answerLabel: "C → B → A.",
+    explanation:
+      "B ustępuje C z prawej, a A ustępuje B. C może przejechać, następnie B i A.",
+    watchFor: "Sprawdź prawą stronę każdego kierowcy, nie tylko A.",
+    steps: [
+      step(["C"], "C ma wolną prawą stronę."),
+      step(["B"], "B przejeżdża po C."),
+      step(["A"], "A jedzie po B."),
+    ],
+    sources: [law("art. 25 ust. 1")],
+  }),
+  define(0, {
+    id: "right-turn-shared-exit",
+    title: "Prawy skręt i wspólny pas",
+    difficulty: 2,
+    description:
+      "A od dołu skręca w prawo, B z lewej jedzie prosto. Skrzyżowanie równorzędne. Oba tory prowadzą na ten sam pas prawego wylotu.",
+    participants: [car("A", "south", "right"), car("B", "west")],
+    question: first(["A", "B"], "A"),
+    hint: "Kto znajduje się po prawej stronie kierowcy B?",
+    answerLabel: "A przed B.",
+    explanation:
+      "B ma A po prawej i ustępuje mu. Wspólny pas nie pozwala wjechać obok siebie.",
+    watchFor:
+      "Skręcający w prawo także może mieć pierwszeństwo przed pojazdem jadącym prosto.",
+    steps: [
+      step(["A"], "B ustępuje A z prawej."),
+      step(["B"], "B wjeżdża na wolny pas."),
+    ],
+    sources: [law("art. 25 ust. 1")],
+  }),
+  define(0, {
+    id: "left-yields-two",
+    title: "Lewy skręt: dwa powody czekania",
+    difficulty: 3,
+    description:
+      "A od dołu skręca w lewo, B z prawej i C z przeciwka jadą prosto. Brak znaków i świateł. Wszyscy dojechali jednocześnie.",
+    participants: [
+      car("A", "south", "left"),
+      car("B", "east"),
+      car("C", "north"),
+    ],
+    question: {
+      kind: "multiple",
+      prompt: "Komu A musi ustąpić?",
+      options: [
+        { id: "B", label: "Pojazdowi B", actor: "B" },
+        { id: "C", label: "Pojazdowi C", actor: "C" },
+      ],
+      accepted: [["B", "C"]],
+    },
+    hint: "Połącz prawą stronę z zasadą skrętu w lewo.",
+    answerLabel: "A ustępuje B i C.",
+    explanation:
+      "B jest z prawej A, a C jedzie prosto z przeciwka. Najpierw C, któremu także B ustępuje, potem B i A.",
+    watchFor:
+      "Samo sprawdzenie prawej strony nie wystarcza przy lewym skręcie.",
+    steps: [
+      step(["C"], "C jedzie przed B i skręcającym A."),
+      step(["B"], "B przejeżdża; A nadal czeka."),
+      step(["A"], "A wykonuje lewy skręt."),
+    ],
+    sources: [law("art. 25 ust. 1")],
+  }),
 ];

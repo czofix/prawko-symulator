@@ -51,7 +51,9 @@ export function Home({
           >
             Zacznij naukę <Icon name="arrow" />
           </button>
-          <button className="button secondary picker-entry" onClick={onPicker}>Wybierz sytuację</button>
+          <button className="button secondary picker-entry" onClick={onPicker}>
+            Wybierz sytuację
+          </button>
           <div className="hero-reassurance">
             <span>
               <Icon name="check" size={15} /> Bez presji czasu
@@ -196,7 +198,7 @@ export function Home({
             "Skręt w lewo",
             "Światła",
             "Rondo",
-            "Piesi",
+            "Piesi i rowerzyści",
             "Jazda na suwak",
           ].map((topic, i) => (
             <span key={topic}>

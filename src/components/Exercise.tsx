@@ -93,7 +93,18 @@ export function Exercise({
           </b>
         </span>
       </div>
-      {onList && <div className="level-navigation"><button className="text-button" onClick={onList}>← Wybierz sytuację</button>{onPrevious && <button className="text-button" onClick={onPrevious}>Poprzednie zadanie</button>}</div>}
+      {onList && (
+        <div className="level-navigation">
+          <button className="text-button" onClick={onList}>
+            ← Wybierz sytuację
+          </button>
+          {onPrevious && (
+            <button className="text-button" onClick={onPrevious}>
+              Poprzednie zadanie
+            </button>
+          )}
+        </div>
+      )}
       <div className="session-track">
         <div style={{ width: `${(number / total) * 100}%` }} />
       </div>

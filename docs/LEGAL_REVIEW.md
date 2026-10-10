@@ -67,3 +67,24 @@ Na rysunkach skontrolowano przypisanie znaków i sygnalizatorów do wlotów, kie
 ## Granice materiału
 
 Rysunki są schematyczne; nie przedstawiają drogi hamowania, odległości ani prędkości w rzeczywistej skali. Przegląd obejmuje opisane warunki i wskazane przepisy, nie wszystkie możliwe sytuacje drogowe. Nie ma tramwajów, osób kierujących ruchem ani pojazdów uprzywilejowanych. Wynik ćwiczenia nie jest wynikiem egzaminu państwowego. Zmiana przepisów lub warunków scenariusza wymaga ponownego sprawdzenia treści i źródeł; same testy programu nie dowodzą poprawności prawnej.
+
+## Rozszerzenie do 60 sytuacji — przegląd 10.10.2026
+
+Dla 44 nowych zadań ponownie pobrano oba teksty jednolite i wszystkie późniejsze akty zmieniające wskazane w aktualnych metadanych ELI aktów DU/1997/602 i DU/2002/1393. [Rejestr 17 pobrań](legal/sources-2026-10-10.json) zawiera adresy oficjalne, SHA-256, datę odczytu, wejście w życie i wyjątki. Skróty wszystkich 17 PDF odpowiadają dokumentom wcześniejszego audytu opisanego powyżej. Pierwotne 16 zadań zachowuje identyfikatory i datę 09.10.2026; nowe mają datę 10.10.2026 po wykonaniu tego przeglądu.
+
+Dodatkowo sprawdzono art. 17 ust. 1–2 (włączanie z nieruchomości), art. 19 ust. 2 pkt 3 (odstęp), art. 25 ust. 4 pkt 1 (zajęty wylot), art. 26 ust. 2 i 4 (pieszy przy skręcie i na chodniku), art. 27 ust. 1 i 1a (rower na przejeździe oraz jadący wprost przy skręcie samochodu), art. 2 pkt 31 i 47 oraz § 47 ust. 2, § 88 ust. 2, § 95 ust. 1 pkt 2–4 i ust. 2, § 96 ust. 1 i 3, § 97 ust. 1–3 rozporządzenia. Pozostałe nowe sytuacje opierają się na ponownie odczytanych przepisach o znakach, prawej stronie, lewym skręcie i zmianie pasa.
+
+Nowelizacje z rejestru nie zmieniają rozstrzygających norm użytych w tych warunkach. Dz.U. 2025 poz. 1676 zmienia m.in. art. 33 (bezpieczeństwo rowerzystów), lecz nie użyte art. 27 ust. 1 i 1a; rowerzysta w modelu ma kask. Dz.U. 2025 poz. 1843 dodaje definicje dotyczące pojazdów zautomatyzowanych, a Dz.U. 2026 poz. 180 zmienia art. 2 pkt 37; nie zmieniają użytych definicji pojazdu i roweru. Nie powołujemy uchylonego § 47 ust. 4. Przyszłe regulacje DU/2026/875, DU/2026/1073 i wyjątki DU/2025/1734 nie są traktowane jako obowiązujące 10.10.2026. Warunkowy termin art. 2 DU/2026/982 dotyczy ewidencji kwalifikacji, a nie rozstrzygnięć pierwszeństwa.
+
+Warunki rozstrzygające:
+
+- Zielone S-1 nie daje bezkolizyjnego lewego skrętu; w zadaniu S-3 wskazano kierunek i czerwone dla pojazdu z przeciwka.
+- S-2 wymaga zatrzymania i nieutrudniania ruchu. Zatrzymanie jest osobnym etapem albo zostało jawnie wykonane przed sceną.
+- Przy żółtym podano możliwość spokojnego zatrzymania. Przy czerwonym z żółtym i zablokowanym wylocie A pozostaje nieruchomy.
+- W zadaniu z samym C-12 jawnie wykluczono A-7 i inne regulacje pierwszeństwa. Nie przenosimy tego rozwiązania na typowy zestaw A-7+C-12.
+- `priority-independent-pair` dopuszcza kolejności A→B→C i B→A→C. Wyjaśnienie i animacja pokazują również dozwoloną grupę A+B, potem C.
+- Pierwszeństwa pieszego wchodzącego nie przeniesiono na rower dopiero zbliżający się do przejazdu. Zadanie rowerowe dotyczy B już na przejeździe; osobne zadanie dotyczy równoległej jazdy wprost z art. 27 ust. 1a.
+- Wyjazd z posesji jest włączaniem do ruchu, nie skrzyżowaniem równorzędnym. Wskazano pusty chodnik i obowiązek powolnego przejazdu.
+- Samo spowolnienie przy dwóch drożnych pasach nie oznacza suwaka. W zadaniu z czterema autami C wpuszcza jeden pojazd A, a nie także jadące za nim D.
+
+[Pełny katalog 60 sytuacji](SCENARIO_CATALOG.md) wiąże identyfikatory, odpowiedzi, przepisy i daty. Materiał ma charakter edukacyjny. Nie przeprowadzono niezależnej certyfikacji instruktorskiej; schematyczne skale i czas animacji nie służą do oceny odległości ani drogi hamowania.

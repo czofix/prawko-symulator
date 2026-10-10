@@ -2,7 +2,7 @@
 
 Responsywna aplikacja po polsku: React, TypeScript, Vite, przestrzenne plansze SVG. Samochody z bryłą nadwozia, szybami, kołami i światłami poruszają się po torach jazdy w otoczeniu asfaltu, chodników i zieleni. Bez backendu, kont, zewnętrznych fontów i usług analitycznych. Zapis postępu wyłącznie w przeglądarce.
 
-> **Treści sprawdzono 9 października 2026.** Wszystkie 16 scenariuszy porównano z oficjalnymi tekstami ustawy i rozporządzenia oraz późniejszymi nowelizacjami, także z 2026 r. Każde zadanie zawiera przepis, link i datę sprawdzenia. Zakres, uwzględnione zmiany i rejestr dokumentów: [docs/LEGAL_REVIEW.md](docs/LEGAL_REVIEW.md). Aplikacja służy ćwiczeniom; nie jest państwową bazą pytań egzaminacyjnych.
+> **60 pełnych sytuacji.** Nowe 44 zadania sprawdzono 10 października 2026 w oficjalnych tekstach i późniejszych nowelizacjach. Zachowano 16 pierwotnych identyfikatorów i ich datę sprawdzenia 09.10.2026. Każde zadanie ma przepis, link i datę. Szczegóły: [weryfikacja prawna](docs/LEGAL_REVIEW.md). To symulator edukacyjny, nie państwowa baza pytań egzaminacyjnych.
 
 ## Uruchomienie
 
@@ -55,7 +55,7 @@ Kolejne zmiany wysłane na `main` uruchamiają publikację automatycznie. Przed 
 
 ## Struktura
 
-- `src/data/scenarios.ts` — 16 stabilnych identyfikatorów, opisy, pytania, dopuszczone odpowiedzi, tory, kroki i wskazania źródeł.
+- `src/data/scenarios.ts` — 60 stabilnych identyfikatorów, opisy, pytania, dopuszczone odpowiedzi, tory, kroki i wskazania źródeł.
 - `src/domain/` — niezależna ocena odpowiedzi, geometria, walidacja scenariuszy i wersjonowanie zapisu.
 - `src/hooks/` — bezpieczny zapis i odtwarzanie z `requestAnimationFrame`, czyszczeniem i `prefers-reduced-motion`.
 - `src/components/` — plansza, pytanie, sterowanie, wprowadzenie i sekcja prawna.
@@ -74,3 +74,18 @@ Weryfikuj źródła i daty osobno od testów technicznych. `verification: 'verif
 Klucz `prawko.progress.v1` zawiera wersję schematu, liczniki prób po identyfikatorach scenariuszy, ostatni wynik, do 20 sesji, wybraną prędkość i status wprowadzenia. Błędy parsowania, nieprawidłowe typy, zbyt duży zapis i odmowa dostępu nie blokują aplikacji. Nie używamy `dangerouslySetInnerHTML` ani nie wysyłamy postępu do sieci. Poprawna powtórka usuwa zadanie z bieżącej listy błędów, zachowując historyczne liczniki.
 
 Odświeżenie zachowuje zatwierdzone próby i ukończone sesje, ale rozpoczyna widok od strony głównej. Niezakończone ćwiczenie 10 pytań nie jest wznawiane. Przegląd szczegółowych odpowiedzi jest dostępny po zakończeniu bieżącego ćwiczenia; historia na stronie głównej pokazuje wyniki.
+
+
+## 60 sytuacji i wybór poziomu
+
+Pula zawiera dokładnie 60 sytuacji: równorzędne i skręty **10**, znaki i pierwszeństwo **10**, łamane pierwszeństwo **8**, sygnalizacja **10**, ronda **8**, piesi i rowerzyści **8**, pasy i włączanie się **6**. [Katalog](docs/SCENARIO_CATALOG.md) podaje każde zadanie i podstawę prawną. Nowe 44 sytuacje sprawdzono w oficjalnych źródłach 10.10.2026; szczegóły i nowelizacje w [przeglądzie prawnym](docs/LEGAL_REVIEW.md).
+
+„Wybierz sytuację” umożliwia filtrowanie kategorii i trudności, pokazuje poziomy 1–60 oraz status ostatniej odpowiedzi. Można zacząć dowolne zadanie, wrócić do listy z zachowanymi filtrami i przejść do poprzedniej sytuacji. Wszystkie tryby korzystają z całej puli; ćwiczenie losuje 10 różnych pytań.
+
+Prędkości odtwarzania: **0,5× / 1× / 2×**. Tryb 2× skraca czas etapów i ruchu o połowę bez zmiany kolejności. Działają pauza, restart i kolejne kroki; wybór zapisuje się w localStorage. Preferencja ograniczania ruchu nadal włącza statyczne etapy.
+
+Format `prawko.progress.v1` pozostaje w wersji 1. Zachowano wszystkie pierwotne identyfikatory; numer poziomu jest oddzielny od klucza zapisu. Stare wyniki i historia pozostają czytelne, dodano tylko akceptowanie prędkości 2.
+
+Dane są podzielone na pliki tematyczne w `src/data/scenarios/`; `legacy.ts` zachowuje pierwotne 16 zadań. `src/data/scenarios.ts` składa i waliduje pulę. Świadome przyszłe rozszerzenie ponad 60 wymaga zmiany ograniczenia liczby i testu. Model wspiera rowerzystów, przejazdy, S-2/S-3, nieruchome pojazdy i wyjazd z posesji.
+
+Po `npm run test:e2e` otwórz `test-results/scene-review-desktop.html` lub `test-results/scene-review-mobile.html`, aby obejrzeć komplet 60 plansz z opisami i rozwiązaniami. Pliki raportów są generowane i ignorowane przez Git.

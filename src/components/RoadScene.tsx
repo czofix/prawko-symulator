@@ -132,7 +132,9 @@ export function RoadScene({
             scenario.question.options.some((o) => o.actor === p.id);
           const chosen = selected.includes(p.id);
           const indicating =
-            p.maneuver !== "straight" && fraction < turnEnds[p.id] && fraction * pathLengths[p.id] >= (p.indicatorFromDistance ?? 0);
+            p.maneuver !== "straight" &&
+            fraction < turnEnds[p.id] &&
+            fraction * pathLengths[p.id] >= (p.indicatorFromDistance ?? 0);
           return (
             <g
               key={p.id}
@@ -174,7 +176,9 @@ export function RoadScene({
                   id={`${id}-car-${p.id}`}
                   shadowId={id}
                 />
-              ) : p.kind === "cyclist" ? <CyclistModel angle={pose.angle} /> : (
+              ) : p.kind === "cyclist" ? (
+                <CyclistModel angle={pose.angle} />
+              ) : (
                 <g aria-hidden="true">
                   <ellipse
                     cx="7"
@@ -288,7 +292,9 @@ export function RoadScene({
           </g>
         )}
       </svg>
-      {scenario.sceneNote && !compact && <p className="scene-note">{scenario.sceneNote}</p>}
+      {scenario.sceneNote && !compact && (
+        <p className="scene-note">{scenario.sceneNote}</p>
+      )}
       {detail && (
         <div className="sign-detail" role="status">
           <span>{detail}</span>

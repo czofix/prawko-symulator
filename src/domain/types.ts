@@ -21,7 +21,14 @@ export interface Participant {
 }
 export interface RoadSign {
   approach: Approach;
-  type: "yield" | "priority" | "stop" | "roundabout" | "bend" | "crossing" | "cycleCrossing";
+  type:
+    | "yield"
+    | "priority"
+    | "stop"
+    | "roundabout"
+    | "bend"
+    | "crossing"
+    | "cycleCrossing";
   position?: Point;
   actors?: ParticipantId[];
   bendRotation?: number;
@@ -52,8 +59,19 @@ export interface Scenario {
   title: string;
   category: string;
   difficulty: 1 | 2 | 3;
-  geometry: "crossroad" | "roundabout" | "crosswalk" | "merge" | "lanes" | "driveway";
-  markings?: { x: number; y: number; rotation: number; kind: "pedestrian" | "cycle" }[];
+  geometry:
+    | "crossroad"
+    | "roundabout"
+    | "crosswalk"
+    | "merge"
+    | "lanes"
+    | "driveway";
+  markings?: {
+    x: number;
+    y: number;
+    rotation: number;
+    kind: "pedestrian" | "cycle";
+  }[];
   cycleTrack?: boolean;
   sceneNote?: string;
   description: string;

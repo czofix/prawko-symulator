@@ -29,7 +29,10 @@ const ped = (startX: number): Participant => ({
   description: "P: pieszy przechodzi od prawej do lewej po przejściu",
   route: { start: [startX, 410], segments: [{ type: "line", to: [194, 410] }] },
 });
-const sign = (approach: Approach, type: Exclude<RoadSign["type"], "cycleCrossing">): RoadSign => ({
+const sign = (
+  approach: Approach,
+  type: Exclude<RoadSign["type"], "cycleCrossing">,
+): RoadSign => ({
   approach,
   type,
   label: `${{ yield: "A-7: ustąp pierwszeństwa", priority: "D-1: droga z pierwszeństwem", stop: "B-20: STOP", roundabout: "C-12: ruch okrężny", bend: `${approach === "north" ? "T-6c" : "T-6a"}: przebieg pierwszeństwa łączy dolny i lewy wlot na rysunku`, crossing: "D-6: przejście dla pieszych" }[type]} — wlot ${{ south: "dolny", north: "górny", east: "prawy", west: "lewy" }[approach]}`,

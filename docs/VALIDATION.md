@@ -1,5 +1,27 @@
 # Sprawdzenia techniczne
 
+## Rozszerzenie do 60 sytuacji — 10.10.2026
+
+Środowisko: Node.js 24.19.0, npm 11.9.0, Linux i systemowy Chromium. Wykonano ponownie na odtworzonej, zapisanej w Git wersji:
+
+- `npm run typecheck` — bez błędów.
+- `npm run lint` — bez błędów.
+- `npm test` — **146 testów w 6 plikach**, wszystkie zaliczone.
+- `npm run build` — pomyślny build produkcyjny.
+- `npm run test:e2e` — **22 testy**, po 11 na desktopie 1440 × 1000 i w emulacji telefonu 390 × 844. Testy uruchamiają podgląd aktualnego builda produkcyjnego.
+
+Testy sprawdzają dokładnie 60 unikalnych identyfikatorów, zachowanie 16 pierwotnych, podział kategorii, źródła i właściwe daty, dopuszczalne odpowiedzi oraz zgodność animowanej kolejności z ocenianiem. Dla wszystkich torów próbkowane są pozycje uczestników, także przy ruchu jednoczesnym i z uwzględnieniem przedłużonego wyjazdu poza kadr. Walidator odrzuca m.in. ruch na czerwonym, ruch zadeklarowanego nieruchomego auta i brak kierunku S-3.
+
+Osobny test czasu symuluje klatki wszystkich 60 animacji przy 1× i 2×: czas jest o połowę krótszy, a sekwencja etapów identyczna. Przeglądarka sprawdza pozycję w połowie przejazdu, zakończenie, pauzę, restart, następny krok, powrót do 1×, następne zadanie i zachowanie 2× po odświeżeniu. Nowe animacje rowerów, ronda, posesji i grup równoczesnych odtworzono przy 2× na obu rozmiarach; czekający pozostają nieruchomi.
+
+Test wyboru poziomu obejmuje 60 kart, filtrowanie, dowolny start, powrót z zachowanymi filtrami, poprzednie zadanie i stary zapis poprawnych/błędnych odpowiedzi. Pozostałe testy obejmują ćwiczenie 10 różnych zadań bez ujawniania odpowiedzi, powtórki, reset, niedostępny/uszkodzony magazyn, szybkie kliknięcia, klawiaturę, powiększenie tekstu, ograniczenie ruchu i brak błędów konsoli.
+
+Przygotowano i obejrzano przegląd wszystkich 60 plansz na obu rozmiarach. Galerie można odtworzyć testami: `test-results/scene-review-desktop.html` i `test-results/scene-review-mobile.html`. Obejrzano także listę poziomów i zrzuty nowych typów w trakcie ruchu. Poprawiono m.in. położenie znaku D-6 przy zjeździe z ronda, aby nie zasłaniał pieszego, oraz spójność oznakowania i manewrów zadania z trzema autami na drogach o różnym statusie.
+
+Ograniczenia: testy telefoniczne są emulacją Chromium, nie testem fizycznego telefonu ani Safari/Firefox. Przegląd prawny oparto na oficjalnych dokumentach; nie ma niezależnej certyfikacji instruktorskiej ani audytu czytnikiem ekranu. Niedokończona sesja nie jest wznawiana po odświeżeniu; zapisane próby, ukończone sesje i preferencje pozostają. Dostęp do domeny GitHub Pages z tego środowiska jest ograniczony; wynik publikacji należy odróżnić od lokalnych testów.
+
+## Historia wcześniejszych sprawdzeń
+
 Wykonano 9 października 2026 w środowisku Linux, Node.js 24.19.0, npm 11.9.0 i systemowym Chromium.
 
 ## Wyniki

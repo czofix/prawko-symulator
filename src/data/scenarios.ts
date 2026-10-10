@@ -1,16 +1,46 @@
-import { validateScenario } from '../domain/validateScenario';
-import { legacy } from './scenarios/legacy';
-import { categories } from './scenarios/helpers';
-import { equal } from './scenarios/equal';
-import { priority } from './scenarios/priority';
-import { bends } from './scenarios/bends';
-import { lights } from './scenarios/lights';
-import { roundabouts } from './scenarios/roundabouts';
-import { vulnerable } from './scenarios/vulnerable';
-import { lanes } from './scenarios/lanes';
-const categoryForLegacy=(id:string)=> id==='priority-bends'?2:id.startsWith('green-')?3:id==='roundabout-yield'?4:id==='pedestrian-on-crossing'?5:['zipper-jam','merge-free-flow'].includes(id)?6:['priority-before-right','yield-to-priority','stop-is-not-priority'].includes(id)?1:0;
-export const scenarios=[...legacy.map(s=>({...s,category:categories[categoryForLegacy(s.id)]})),...equal,...priority,...bends,...lights,...roundabouts,...vulnerable,...lanes].sort((a,b)=>a.difficulty-b.difficulty);
-if(scenarios.length!==60 || new Set(scenarios.map(s=>s.id)).size!==60) throw new Error('Pula wymaga dokładnie 60 unikalnych sytuacji.');
+import { validateScenario } from "../domain/validateScenario";
+import { legacy } from "./scenarios/legacy";
+import { categories } from "./scenarios/helpers";
+import { equal } from "./scenarios/equal";
+import { priority } from "./scenarios/priority";
+import { bends } from "./scenarios/bends";
+import { lights } from "./scenarios/lights";
+import { roundabouts } from "./scenarios/roundabouts";
+import { vulnerable } from "./scenarios/vulnerable";
+import { lanes } from "./scenarios/lanes";
+const categoryForLegacy = (id: string) =>
+  id === "priority-bends"
+    ? 2
+    : id.startsWith("green-")
+      ? 3
+      : id === "roundabout-yield"
+        ? 4
+        : id === "pedestrian-on-crossing"
+          ? 5
+          : ["zipper-jam", "merge-free-flow"].includes(id)
+            ? 6
+            : [
+                  "priority-before-right",
+                  "yield-to-priority",
+                  "stop-is-not-priority",
+                ].includes(id)
+              ? 1
+              : 0;
+export const scenarios = [
+  ...legacy.map((s) => ({
+    ...s,
+    category: categories[categoryForLegacy(s.id)],
+  })),
+  ...equal,
+  ...priority,
+  ...bends,
+  ...lights,
+  ...roundabouts,
+  ...vulnerable,
+  ...lanes,
+].sort((a, b) => a.difficulty - b.difficulty);
+if (scenarios.length !== 60 || new Set(scenarios.map((s) => s.id)).size !== 60)
+  throw new Error("Pula wymaga dokładnie 60 unikalnych sytuacji.");
 scenarios.forEach(validateScenario);
-export const scenarioById=new Map(scenarios.map(s=>[s.id,s]));
-export const scenarioNumber=new Map(scenarios.map((s,i)=>[s.id,i+1]));
+export const scenarioById = new Map(scenarios.map((s) => [s.id, s]));
+export const scenarioNumber = new Map(scenarios.map((s, i) => [s.id, i + 1]));

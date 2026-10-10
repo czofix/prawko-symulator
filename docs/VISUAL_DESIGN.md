@@ -15,3 +15,11 @@ Wygląd inspirowany przykładami użytkownika: dzienne światło, nawierzchnia a
 Wszystkie strzałki przed zatwierdzeniem mają jednakowy kolor. Litery na autach pozostają czytelne niezależnie od kierunku obrotu i koloru nadwozia. Ograniczenie ruchu, sterowanie klawiaturą, zatwierdzanie odpowiedzi, zapamiętywanie postępu i tryb ćwiczenia korzystają z dotychczasowej logiki.
 
 Weryfikacja: [VALIDATION.md](VALIDATION.md). Przegląd obejmuje Chromium na komputerowym i telefonicznym rozmiarze ekranu; nie zastępuje testów na fizycznych telefonach ani w innych silnikach przeglądarek.
+
+## Pula 60 sytuacji
+
+Zachowano wspólną projekcję SVG. Dodano model rowerzysty z ramą, kołami i kaskiem, osobne przejazdy P-11, oznaczenia D-6a, geometrię dwóch drożnych pasów i wyjazdu z posesji. Tabliczki przebiegu pierwszeństwa mają obrót zgodny z układem drogi i wlotem. S-2 ma małą strzałkę obok czerwonego, S-3 strzałkę wewnątrz zielonego; czerwone z żółtym zapala obie komory. Znaki mają opisy dostępne dotykiem.
+
+Prędkość zmienia wspólną oś czasu z `domain/playback.ts`; nie zmienia geometrii, kolejności ani animacji interfejsu. Ograniczenie ruchu pozostaje statyczne. Nieruchomy uczestnik zablokowanego wylotu nie ma strzałki obiecującej przejazd. Strzałki innych uczestników nadal znikają w miarę pokonywania toru.
+
+Przegląd wszystkich plansz generuje `e2e/visualReview.ts` dla desktopu i szerokości 390 px. Testy sprawdzają ciągłość, odstępy uczestników, pełną widoczność grotów i zakończenie rzeczywistego toru przejazdu.

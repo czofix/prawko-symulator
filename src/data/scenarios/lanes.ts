@@ -1,10 +1,124 @@
-import type { Participant, ParticipantId } from '../../domain/types';
-import { car, choice, define, law, order, step } from './helpers';
-const changing=(id:ParticipantId='A',y=365):Participant=>({...car(id,'south','right'),description:`${id}: z lewego pasa na prawy`,route:{start:[258,y],segments:[...(y>365?[{type:'line' as const,to:[258,365] as const}]:[]),{type:'curve',c1:[258,300],c2:[342,310],to:[342,240]},{type:'line',to:[342,-60]}]}});
-const straight=(id:ParticipantId,y:number):Participant=>({...car(id,'south'),description:`${id}: jedzie prawym pasem`,route:{start:[342,y],segments:[{type:'line',to:[342,-60]}]}});
-export const lanes=[
- define(6,{id:'lane-indicator-no-priority',title:'Kierunkowskaz nie daje pierwszeństwa',difficulty:2,geometry:'lanes',description:'Dwa pasy w tym samym kierunku są drożne. A z lewego chce zmienić pas na prawy i włączył kierunkowskaz. B jedzie prawym pasem. Ruch jest płynny.',participants:[changing(),straight('B',435)],question:choice('Czy kierunkowskaz pozwala A wjechać przed B?','Nie, A ustępuje B na pasie docelowym','Tak, B musi zawsze wpuścić sygnalizującego'),hint:'Oddziel informację o zamiarze od prawa pierwszeństwa.',answerLabel:'B przed A.',explanation:'Zmieniający pas A ustępuje pojazdowi B jadącemu po pasie docelowym. Kierunkowskaz tylko zapowiada zamiar.',watchFor:'Nie traktuj sygnału jako żądania wolnego miejsca.',steps:[step(['B'],'B jedzie swoim pasem.'),step(['A'],'A zmienia pas po ustąpieniu.')],sources:[law('art. 22 ust. 4–5')]}),
- define(6,{id:'slow-traffic-no-closure',title:'Sam korek to jeszcze nie suwak',difficulty:2,geometry:'lanes',description:'Samochody jadą bardzo wolno. Oba pasy prowadzą dalej, żaden nie zanika i nie ma przeszkody. A chce przejść z lewego pasa na prawy zajmowany przez B.',sceneNote:'Znaczne spowolnienie, ale oba pasy pozostają drożne.',participants:[changing(),straight('B',435)],question:choice('Czy A może powołać się na jazdę na suwak?','Nie, musi ustąpić B przy zwykłej zmianie pasa','Tak, każdy korek oznacza suwak'),hint:'Oprócz prędkości sprawdź, czy pas rzeczywiście się kończy.',answerLabel:'A ustępuje B.',explanation:'Suwak wymaga także braku możliwości kontynuacji jazdy pasem wskutek zanikania lub przeszkody. Tutaj tego warunku nie ma.',watchFor:'Nie wybieraj tylko jednego z warunków suwaka.',steps:[step(['B'],'B przejeżdża pasem docelowym.'),step(['A'],'A zmienia pas po ustąpieniu B.')],sources:[law('art. 22 ust. 4 i 4a')]}),
- define(6,{id:'driveway-join',title:'Wyjazd z posesji',difficulty:2,geometry:'driveway',description:'A wyjeżdża z prywatnej posesji z lewej, przez pusty chodnik, i skręca w prawo. B jedzie drogą od góry. To wyjazd z nieruchomości, nie skrzyżowanie równorzędne.',sceneNote:'Lewy wyjazd prowadzi z prywatnej posesji.',participants:[car('A','west','right'),car('B','north')],question:choice('Kto ma pierwszeństwo?','B; A włącza się do ruchu i mu ustępuje','A, bo B widzi go po prawej'),hint:'Ustal, skąd A wjeżdża na drogę.',answerLabel:'B przed A.',explanation:'Wyjeżdżający z nieruchomości włącza się do ruchu. A ustępuje B i przejeżdża powoli przez chodnik, upewniając się, że nie ma pieszych.',watchFor:'Reguła prawej strony nie nadaje pierwszeństwa wyjeżdżającemu z posesji.',steps:[step(['B'],'B jedzie drogą, A czeka na posesji.'),step(['A'],'A ostrożnie włącza się do ruchu.')],sources:[law('art. 17 ust. 1 pkt 1 i ust. 2; art. 26 ust. 4')]}),
- define(6,{id:'zipper-only-one',title:'Suwak: jeden, nie cała kolumna',difficulty:3,geometry:'merge',description:'Znaczne spowolnienie, lewy pas zanika. A jest bezpośrednio przy zwężeniu, D za A. B już mija zwężenie, C jest następnym na prawym pasie. Po A C przejeżdża, zanim wjedzie D.',participants:[changing(),straight('B',220),straight('C',475),changing('D',530)],question:order(['A','B','C','D'],[['B','A','C','D']]),hint:'Ile pojazdów z kończącego się pasa wpuszcza C?',answerLabel:'B → A → C → D.',explanation:'C umożliwia zmianę pasa jednemu pojazdowi A. D nie jedzie za A kosztem C; dojeżdża do zwężenia i zmienia pas po C, kiedy jest wolny.',watchFor:'Suwak nie daje całej kolumnie z kończącego się pasa pierwszeństwa.',steps:[step(['B'],'B opuszcza miejsce zwężenia.'),step(['A'],'C umożliwia wjazd jednemu autu A.'),step(['C'],'Teraz przejeżdża C.'),step(['D'],'D dojeżdża do końca pasa i wjeżdża po C.')],sources:[law('art. 22 ust. 4a')]})
+import type { Participant, ParticipantId } from "../../domain/types";
+import { car, choice, define, law, order, step } from "./helpers";
+const changing = (id: ParticipantId = "A", y = 365): Participant => ({
+  ...car(id, "south", "right"),
+  description: `${id}: z lewego pasa na prawy`,
+  route: {
+    start: [258, y],
+    segments: [
+      ...(y > 365 ? [{ type: "line" as const, to: [258, 365] as const }] : []),
+      { type: "curve", c1: [258, 300], c2: [342, 310], to: [342, 240] },
+      { type: "line", to: [342, -60] },
+    ],
+  },
+});
+const straight = (id: ParticipantId, y: number): Participant => ({
+  ...car(id, "south"),
+  description: `${id}: jedzie prawym pasem`,
+  route: { start: [342, y], segments: [{ type: "line", to: [342, -60] }] },
+});
+export const lanes = [
+  define(6, {
+    id: "lane-indicator-no-priority",
+    title: "Kierunkowskaz nie daje pierwszeństwa",
+    difficulty: 2,
+    geometry: "lanes",
+    description:
+      "Dwa pasy w tym samym kierunku są drożne. A z lewego chce zmienić pas na prawy i włączył kierunkowskaz. B jedzie prawym pasem. Ruch jest płynny.",
+    participants: [changing(), straight("B", 435)],
+    question: choice(
+      "Czy kierunkowskaz pozwala A wjechać przed B?",
+      "Nie, A ustępuje B na pasie docelowym",
+      "Tak, B musi zawsze wpuścić sygnalizującego",
+    ),
+    hint: "Oddziel informację o zamiarze od prawa pierwszeństwa.",
+    answerLabel: "B przed A.",
+    explanation:
+      "Zmieniający pas A ustępuje pojazdowi B jadącemu po pasie docelowym. Kierunkowskaz tylko zapowiada zamiar.",
+    watchFor: "Nie traktuj sygnału jako żądania wolnego miejsca.",
+    steps: [
+      step(["B"], "B jedzie swoim pasem."),
+      step(["A"], "A zmienia pas po ustąpieniu."),
+    ],
+    sources: [law("art. 22 ust. 4–5")],
+  }),
+  define(6, {
+    id: "slow-traffic-no-closure",
+    title: "Sam korek to jeszcze nie suwak",
+    difficulty: 2,
+    geometry: "lanes",
+    description:
+      "Samochody jadą bardzo wolno. Oba pasy prowadzą dalej, żaden nie zanika i nie ma przeszkody. A chce przejść z lewego pasa na prawy zajmowany przez B.",
+    sceneNote: "Znaczne spowolnienie, ale oba pasy pozostają drożne.",
+    participants: [changing(), straight("B", 435)],
+    question: choice(
+      "Czy A może powołać się na jazdę na suwak?",
+      "Nie, musi ustąpić B przy zwykłej zmianie pasa",
+      "Tak, każdy korek oznacza suwak",
+    ),
+    hint: "Oprócz prędkości sprawdź, czy pas rzeczywiście się kończy.",
+    answerLabel: "A ustępuje B.",
+    explanation:
+      "Suwak wymaga także braku możliwości kontynuacji jazdy pasem wskutek zanikania lub przeszkody. Tutaj tego warunku nie ma.",
+    watchFor: "Nie wybieraj tylko jednego z warunków suwaka.",
+    steps: [
+      step(["B"], "B przejeżdża pasem docelowym."),
+      step(["A"], "A zmienia pas po ustąpieniu B."),
+    ],
+    sources: [law("art. 22 ust. 4 i 4a")],
+  }),
+  define(6, {
+    id: "driveway-join",
+    title: "Wyjazd z posesji",
+    difficulty: 2,
+    geometry: "driveway",
+    description:
+      "A wyjeżdża z prywatnej posesji z lewej, przez pusty chodnik, i skręca w prawo. B jedzie drogą od góry. To wyjazd z nieruchomości, nie skrzyżowanie równorzędne.",
+    sceneNote: "Lewy wyjazd prowadzi z prywatnej posesji.",
+    participants: [car("A", "west", "right"), car("B", "north")],
+    question: choice(
+      "Kto ma pierwszeństwo?",
+      "B; A włącza się do ruchu i mu ustępuje",
+      "A, bo B widzi go po prawej",
+    ),
+    hint: "Ustal, skąd A wjeżdża na drogę.",
+    answerLabel: "B przed A.",
+    explanation:
+      "Wyjeżdżający z nieruchomości włącza się do ruchu. A ustępuje B i przejeżdża powoli przez chodnik, upewniając się, że nie ma pieszych.",
+    watchFor:
+      "Reguła prawej strony nie nadaje pierwszeństwa wyjeżdżającemu z posesji.",
+    steps: [
+      step(["B"], "B jedzie drogą, A czeka na posesji."),
+      step(["A"], "A ostrożnie włącza się do ruchu."),
+    ],
+    sources: [law("art. 17 ust. 1 pkt 1 i ust. 2; art. 26 ust. 4")],
+  }),
+  define(6, {
+    id: "zipper-only-one",
+    title: "Suwak: jeden, nie cała kolumna",
+    difficulty: 3,
+    geometry: "merge",
+    description:
+      "Znaczne spowolnienie, lewy pas zanika. A jest bezpośrednio przy zwężeniu, D za A. B już mija zwężenie, C jest następnym na prawym pasie. Po A C przejeżdża, zanim wjedzie D.",
+    participants: [
+      changing(),
+      straight("B", 220),
+      straight("C", 475),
+      changing("D", 530),
+    ],
+    question: order(["A", "B", "C", "D"], [["B", "A", "C", "D"]]),
+    hint: "Ile pojazdów z kończącego się pasa wpuszcza C?",
+    answerLabel: "B → A → C → D.",
+    explanation:
+      "C umożliwia zmianę pasa jednemu pojazdowi A. D nie jedzie za A kosztem C; dojeżdża do zwężenia i zmienia pas po C, kiedy jest wolny.",
+    watchFor:
+      "Suwak nie daje całej kolumnie z kończącego się pasa pierwszeństwa.",
+    steps: [
+      step(["B"], "B opuszcza miejsce zwężenia."),
+      step(["A"], "C umożliwia wjazd jednemu autu A."),
+      step(["C"], "Teraz przejeżdża C."),
+      step(["D"], "D dojeżdża do końca pasa i wjeżdża po C."),
+    ],
+    sources: [law("art. 22 ust. 4a")],
+  }),
 ];

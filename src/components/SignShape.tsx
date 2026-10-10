@@ -60,7 +60,27 @@ export function SignShape({ type }: { type: RoadSign["type"] }) {
         />
       </>
     );
-  if (type === "cycleCrossing") return <><rect x="-21" y="-21" width="42" height="42" rx="2" fill="#347ace" stroke="white" strokeWidth="2"/><path d="M0 -17 18 16H-18Z" fill="white"/><g fill="none" stroke="#193744" strokeWidth="1.8"><circle cx="-8" cy="10" r="5"/><circle cx="8" cy="10" r="5"/><path d="M-8 10-3 1 3 10H-8m5-9H4l4 9M-5-2h5M3-3h4"/></g></>;
+  if (type === "cycleCrossing")
+    return (
+      <>
+        <rect
+          x="-21"
+          y="-21"
+          width="42"
+          height="42"
+          rx="2"
+          fill="#347ace"
+          stroke="white"
+          strokeWidth="2"
+        />
+        <path d="M0 -17 18 16H-18Z" fill="white" />
+        <g fill="none" stroke="#193744" strokeWidth="1.8">
+          <circle cx="-8" cy="10" r="5" />
+          <circle cx="8" cy="10" r="5" />
+          <path d="M-8 10-3 1 3 10H-8m5-9H4l4 9M-5-2h5M3-3h4" />
+        </g>
+      </>
+    );
   if (type === "roundabout")
     return (
       <>
